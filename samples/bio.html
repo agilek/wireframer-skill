@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mira Solano — Science Fiction Author</title>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet" />
+  <script type="module" src="https://unpkg.com/wired-elements?module"></script>
+  <style>
+    html { font-size: 16px; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 16px;
+      background-color: #f7f7f7;
+      background-image: radial-gradient(#d7d7d7 1px, transparent 1px);
+      background-size: 20px 20px;
+      color: #222;
+    }
+
+    /* ── TYPE SCALE ──────────────────────────────────────────── */
+    .text-xs   { font-size: 13px;  line-height: 1.4; }
+    .text-sm   { font-size: 16px;  line-height: 1.5; }
+    .text-base { font-size: 20px;  line-height: 1.5; }
+    .text-md   { font-size: 25px;  line-height: 1.3; }
+    .text-lg   { font-size: 31px;  line-height: 1.2; }
+    .text-xl   { font-size: 39px;  line-height: 1.1; }
+
+    /* ── NAV ─────────────────────────────────────────────────── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #fff;
+      border-bottom: 2px solid #333;
+      border-radius: 0 0 255px 15px / 0 0 15px 225px;
+      padding: 14px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .nav-brand span {
+      font-size: 13px;
+      font-weight: normal;
+      color: #888;
+      display: block;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 16px;
+      color: #333;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover { text-decoration: underline; }
+
+    /* ── SECTIONS ────────────────────────────────────────────── */
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 72px 48px;
+    }
+
+    .section-label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #888;
+      margin-bottom: 12px;
+    }
+
+    /* ── HERO ────────────────────────────────────────────────── */
+    .hero {
+      max-width: 100%;
+      padding: 80px 0 64px;
+      background: #fff;
+      border-bottom: 2px solid #333;
+      border-radius: 0 0 255px 15px / 0 0 15px 225px;
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-eyebrow {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #888;
+      margin-bottom: 16px;
+    }
+
+    .hero-name {
+      font-size: 39px;
+      font-weight: bold;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+
+    .hero-name em {
+      font-style: normal;
+      display: block;
+      font-size: 25px;
+      font-weight: normal;
+      color: #555;
+      margin-top: 6px;
+    }
+
+    .hero-tagline {
+      font-size: 20px;
+      color: #444;
+      line-height: 1.5;
+      margin-bottom: 32px;
+      max-width: 520px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 2px dashed #ccc;
+    }
+
+    .hero-stat-value {
+      font-size: 31px;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-size: 13px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    .hero-photo {
+      width: 100%;
+      aspect-ratio: 3/4;
+      border: 2px solid #333;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      background: #e8e8e8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: #888;
+      font-size: 13px;
+    }
+
+    .hero-photo svg { opacity: 0.4; }
+
+    /* ── ABOUT ───────────────────────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .about-text p {
+      font-size: 20px;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .about-text p:last-child { margin-bottom: 0; }
+
+    .about-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .fact-card {
+      background: #fff;
+      border: 2px solid #333;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      padding: 20px 24px;
+    }
+
+    .fact-card-label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    .fact-card-value {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    /* ── BOOKS ───────────────────────────────────────────────── */
+    .books-section {
+      background: #fff;
+      border-top: 2px solid #333;
+      border-bottom: 2px solid #333;
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-top: 36px;
+    }
+
+    .book-card {
+      background: #f7f7f7;
+      border: 2px solid #333;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .book-cover {
+      width: 100%;
+      aspect-ratio: 2/3;
+      background: #e0e0e0;
+      border-bottom: 2px solid #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .book-cover-title {
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 1.2;
+    }
+
+    .book-cover-author {
+      font-size: 13px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .book-cover-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: #222;
+      color: #fff;
+      font-size: 13px;
+      padding: 3px 10px;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    }
+
+    .book-body {
+      padding: 22px 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .book-genre {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    .book-title {
+      font-size: 25px;
+      font-weight: bold;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .book-desc {
+      font-size: 16px;
+      color: #555;
+      line-height: 1.6;
+      flex: 1;
+      margin-bottom: 20px;
+    }
+
+    .book-meta {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 16px;
+      display: flex;
+      gap: 16px;
+    }
+
+    .book-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* ── PRAISE ──────────────────────────────────────────────── */
+    .praise-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 36px;
+    }
+
+    .praise-card {
+      background: #fff;
+      border: 2px solid #333;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      padding: 28px 28px 22px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .praise-quote-mark {
+      font-size: 39px;
+      line-height: 0.8;
+      color: #ccc;
+      margin-bottom: 12px;
+      font-family: Georgia, serif;
+    }
+
+    .praise-text {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #333;
+      flex: 1;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .praise-divider {
+      border: none;
+      border-top: 1px dashed #ccc;
+      margin-bottom: 16px;
+    }
+
+    .praise-source {
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .praise-pub {
+      font-size: 13px;
+      color: #888;
+    }
+
+    /* ── EVENTS ──────────────────────────────────────────────── */
+    .events-section {
+      background: #fff;
+      border-top: 2px solid #333;
+    }
+
+    .events-list {
+      margin-top: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .event-row {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 24px;
+      align-items: center;
+      background: #f7f7f7;
+      border: 2px solid #333;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      padding: 20px 28px;
+    }
+
+    .event-date {
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    .event-date-day {
+      font-size: 31px;
+      font-weight: bold;
+    }
+
+    .event-date-month {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #888;
+    }
+
+    .event-info-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .event-info-meta {
+      font-size: 13px;
+      color: #888;
+      display: flex;
+      gap: 16px;
+    }
+
+    .event-divider {
+      width: 2px;
+      height: 40px;
+      background: #ccc;
+      border-radius: 2px;
+      align-self: center;
+    }
+
+    /* ── NEWSLETTER ──────────────────────────────────────────── */
+    .newsletter-section {
+      background: #222;
+      color: #f0f0f0;
+      border-top: 2px solid #333;
+    }
+
+    .newsletter-section .section-label {
+      color: #999;
+    }
+
+    .newsletter-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 72px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .newsletter-heading {
+      font-size: 31px;
+      font-weight: bold;
+      margin-bottom: 14px;
+      color: #f0f0f0;
+    }
+
+    .newsletter-sub {
+      font-size: 20px;
+      color: #aaa;
+      line-height: 1.5;
+    }
+
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .newsletter-form wired-input {
+      width: 100%;
+      --wired-input-color: #aaa;
+      font-family: 'Patrick Hand', cursive;
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────────── */
+    .footer {
+      background: #111;
+      color: #777;
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: #777;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .footer-links a:hover { color: #aaa; }
+
+    /* ── WIRED COMPONENT FONT OVERRIDE ───────────────────────── */
+    wired-button, wired-input, wired-textarea, wired-search-input {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════ NAV ══════════════ -->
+  <nav class="nav">
+    <div class="nav-brand">
+      Mira Solano
+      <span>Science Fiction</span>
+    </div>
+    <ul class="nav-links">
+      <li><a onclick="scrollTo('about')">About</a></li>
+      <li><a onclick="scrollTo('books')">Books</a></li>
+      <li><a onclick="scrollTo('praise')">Praise</a></li>
+      <li><a onclick="scrollTo('events')">Events</a></li>
+      <li><a onclick="scrollTo('contact')">Contact</a></li>
+      <li>
+        <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px;" onclick="scrollTo('contact')">
+          Get the Newsletter
+        </wired-button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ══════════════ HERO ══════════════ -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">New York Times Bestselling Author</div>
+        <h1 class="hero-name">
+          Mira Solano
+          <em>Where the cosmos meets the human condition</em>
+        </h1>
+        <p class="hero-tagline">
+          Award-winning science fiction novelist exploring the fractures between technology, memory, and what it means to remain human in a universe that doesn't care if you do.
+        </p>
+        <div class="hero-actions">
+          <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px; background:#222; color:#fff;" onclick="scrollTo('books')">
+            Browse All Books →
+          </wired-button>
+          <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px;" onclick="scrollTo('about')">
+            About Mira
+          </wired-button>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-value">7</div>
+            <div class="hero-stat-label">Novels Published</div>
+          </div>
+          <div>
+            <div class="hero-stat-value">2.1M</div>
+            <div class="hero-stat-label">Copies in Print</div>
+          </div>
+          <div>
+            <div class="hero-stat-value">14</div>
+            <div class="hero-stat-label">Awards Won</div>
+          </div>
+          <div>
+            <div class="hero-stat-value">31</div>
+            <div class="hero-stat-label">Languages</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <!-- portrait photo placeholder -->
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+        <span class="text-xs">Author Photo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ ABOUT ══════════════ -->
+  <section id="about">
+    <div class="section-label">About the Author</div>
+    <h2 class="text-lg" style="margin-bottom:36px;">A voice from the edge<br>of what's possible</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          Mira Solano was born in Puerto Rico and grew up between San Juan and the Bronx, raised on her grandmother's ghost stories and her father's dog-eared copies of Isaac Asimov. She holds a degree in astrophysics from Columbia University and a creative writing MFA from NYU, a combination that her editor once called "either a gift or a liability — usually both."
+        </p>
+        <p>
+          Her debut novel, <em>The Meridian Collapse</em>, was rejected by 41 publishers before becoming a New York Times bestseller and winning the Hugo Award for Best Novel. Since then, she has published six more novels, a short story collection, and one disastrous attempt at a screenplay she prefers not to discuss.
+        </p>
+        <p>
+          She lives in Inwood, Manhattan, with her wife, two cats named Kepler and Chandrasekhar, and what she describes as "a structurally questionable number of houseplants."
+        </p>
+        <div style="margin-top:28px; display:flex; gap:14px;">
+          <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px;">
+            Full Biography →
+          </wired-button>
+          <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px;">
+            Press Kit (PDF)
+          </wired-button>
+        </div>
+      </div>
+      <div class="about-sidebar">
+        <div class="fact-card">
+          <div class="fact-card-label">Based In</div>
+          <div class="fact-card-value">Inwood, New York City</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-card-label">Latest Novel</div>
+          <div class="fact-card-value">Void Cartography (2025)</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-card-label">Major Awards</div>
+          <div class="fact-card-value">Hugo · Nebula · Locus</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-card-label">Represented By</div>
+          <div class="fact-card-value">Elena Marsh, Marsh &amp; Shore Literary</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-card-label">Publisher</div>
+          <div class="fact-card-value">Farrar, Straus &amp; Giroux</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ BOOKS ══════════════ -->
+  <div class="books-section" id="books">
+    <section style="padding-top:72px; padding-bottom:72px; max-width:1100px; margin:0 auto;">
+      <div class="section-label">The Books</div>
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:0;">
+        <h2 class="text-lg">Seven novels.<br>One obsession.</h2>
+        <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px;">
+          View Complete Catalog →
+        </wired-button>
+      </div>
+
+      <div class="books-grid">
+
+        <!-- Book 1 -->
+        <div class="book-card">
+          <div class="book-cover">
+            <div class="book-cover-badge">Latest</div>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+            </svg>
+            <div class="book-cover-title">Void Cartography</div>
+            <div class="book-cover-author">Mira Solano</div>
+          </div>
+          <div class="book-body">
+            <div class="book-genre">Hard Sci-Fi · First Contact</div>
+            <div class="book-title">Void Cartography</div>
+            <p class="book-desc">
+              When cartographer Desta Osei is hired to map unmapped regions of deep space, she discovers that someone — or something — has already been drawing the same maps, centuries before humanity reached the stars.
+            </p>
+            <div class="book-meta">
+              <span>2025</span>
+              <span>468 pages</span>
+              <span>FSG</span>
+            </div>
+            <div class="book-actions">
+              <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px; background:#222; color:#fff;">
+                Order Now →
+              </wired-button>
+              <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px;">
+                Read Sample
+              </wired-button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book 2 -->
+        <div class="book-card">
+          <div class="book-cover">
+            <div class="book-cover-badge">Bestseller</div>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.2">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+            <div class="book-cover-title">Children of the Red Horizon</div>
+            <div class="book-cover-author">Mira Solano</div>
+          </div>
+          <div class="book-body">
+            <div class="book-genre">Post-Apocalyptic · Hard Sci-Fi</div>
+            <div class="book-title">Children of the Red Horizon</div>
+            <p class="book-desc">
+              Three generations after Earth's magnetic field collapsed, the last archivist of human memory must decide which parts of our history are worth carrying into whatever comes next.
+            </p>
+            <div class="book-meta">
+              <span>2022</span>
+              <span>512 pages</span>
+              <span>FSG</span>
+            </div>
+            <div class="book-actions">
+              <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px; background:#222; color:#fff;">
+                Order Now →
+              </wired-button>
+              <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px;">
+                Read Sample
+              </wired-button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book 3 -->
+        <div class="book-card">
+          <div class="book-cover">
+            <div class="book-cover-badge">Hugo Winner</div>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.2">
+              <ellipse cx="12" cy="12" rx="10" ry="4"/>
+              <path d="M12 2a10 10 0 0 1 0 20"/>
+              <path d="M12 2a10 10 0 0 0 0 20"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+            </svg>
+            <div class="book-cover-title">The Meridian Collapse</div>
+            <div class="book-cover-author">Mira Solano</div>
+          </div>
+          <div class="book-body">
+            <div class="book-genre">Climate Sci-Fi · Debut Novel</div>
+            <div class="book-title">The Meridian Collapse</div>
+            <p class="book-desc">
+              A geophysicist tracking the slow failure of Earth's magnetic field begins receiving transmissions from a version of herself who already lived through the end — and chose the wrong thing to save.
+            </p>
+            <div class="book-meta">
+              <span>2019</span>
+              <span>389 pages</span>
+              <span>FSG</span>
+            </div>
+            <div class="book-actions">
+              <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px; background:#222; color:#fff;">
+                Order Now →
+              </wired-button>
+              <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px;">
+                Read Sample
+              </wired-button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- ══════════════ PRAISE ══════════════ -->
+  <section id="praise">
+    <div class="section-label">Critical Praise</div>
+    <h2 class="text-lg" style="margin-bottom:36px;">What the world<br>is saying</h2>
+    <div class="praise-grid">
+
+      <div class="praise-card">
+        <div class="praise-quote-mark">"</div>
+        <p class="praise-text">
+          Solano writes with the precision of a scientist and the soul of a poet. Void Cartography is the most important science fiction novel published this decade — a book about maps that refuses to tell you where you are.
+        </p>
+        <hr class="praise-divider" />
+        <div class="praise-source">Gary K. Wolfe</div>
+        <div class="praise-pub">Locus Magazine</div>
+      </div>
+
+      <div class="praise-card">
+        <div class="praise-quote-mark">"</div>
+        <p class="praise-text">
+          The Meridian Collapse announced a generational talent. Six years and six books later, Mira Solano has only gotten more dangerous. Read her while you still can.
+        </p>
+        <hr class="praise-divider" />
+        <div class="praise-source">Roxane Gay</div>
+        <div class="praise-pub">The New York Times Book Review</div>
+      </div>
+
+      <div class="praise-card">
+        <div class="praise-quote-mark">"</div>
+        <p class="praise-text">
+          Nobody working today fuses hard physics and raw grief quite like Solano. Children of the Red Horizon left me unable to speak for two days. I mean that as the highest possible praise.
+        </p>
+        <hr class="praise-divider" />
+        <div class="praise-source">N.K. Jemisin</div>
+        <div class="praise-pub">Hugo Award-Winning Author</div>
+      </div>
+
+      <div class="praise-card">
+        <div class="praise-quote-mark">"</div>
+        <p class="praise-text">
+          Solano's prose is staggeringly controlled. Every sentence earns its place. This is a writer who understands that science fiction is not about the future — it is always, only ever, about right now.
+        </p>
+        <hr class="praise-divider" />
+        <div class="praise-source">James Wood</div>
+        <div class="praise-pub">The New Yorker</div>
+      </div>
+
+      <div class="praise-card">
+        <div class="praise-quote-mark">"</div>
+        <p class="praise-text">
+          A modern master. Void Cartography earns a permanent place on my shelf, right between Le Guin and Butler — the only two authors I'd let share that particular space without an argument.
+        </p>
+        <hr class="praise-divider" />
+        <div class="praise-source">Publishers Weekly</div>
+        <div class="praise-pub">★★★★★ Starred Review</div>
+      </div>
+
+      <div class="praise-card">
+        <div class="praise-quote-mark">"</div>
+        <p class="praise-text">
+          Thrilling, devastating, and impossible to put down. Solano has mastered the art of the Big Idea novel that still breaks your heart in the final chapter. I want to live inside her brain.
+        </p>
+        <hr class="praise-divider" />
+        <div class="praise-source">Colson Whitehead</div>
+        <div class="praise-pub">Pulitzer Prize-Winning Author</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════ EVENTS ══════════════ -->
+  <div class="events-section" id="events">
+    <section style="padding-top:72px; padding-bottom:72px; max-width:1100px; margin:0 auto;">
+      <div class="section-label">Upcoming Events</div>
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:36px;">
+        <h2 class="text-lg">Meet Mira<br>in person</h2>
+        <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px;">
+          View Full Calendar →
+        </wired-button>
+      </div>
+
+      <div class="events-list">
+
+        <div class="event-row">
+          <div class="event-date">
+            <div class="event-date-day">04</div>
+            <div class="event-date-month">Apr</div>
+          </div>
+          <div class="event-divider"></div>
+          <div style="flex:1;">
+            <div class="event-info-title">Book Launch — Void Cartography</div>
+            <div class="event-info-meta">
+              <span>
+                <svg style="vertical-align:middle;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                The Strand Bookstore, 828 Broadway, NYC
+              </span>
+              <span>7:00 PM · Free with RSVP</span>
+              <span>Reading + Q&amp;A + Signing</span>
+            </div>
+          </div>
+          <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px; background:#222; color:#fff;">
+            RSVP →
+          </wired-button>
+        </div>
+
+        <div class="event-row">
+          <div class="event-date">
+            <div class="event-date-day">12</div>
+            <div class="event-date-month">Apr</div>
+          </div>
+          <div class="event-divider"></div>
+          <div style="flex:1;">
+            <div class="event-info-title">In Conversation: Solano &amp; Jemisin</div>
+            <div class="event-info-meta">
+              <span>
+                <svg style="vertical-align:middle;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Brooklyn Public Library, Grand Army Plaza
+              </span>
+              <span>6:30 PM · $18</span>
+              <span>Panel Discussion</span>
+            </div>
+          </div>
+          <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px;">
+            Buy Tickets →
+          </wired-button>
+        </div>
+
+        <div class="event-row">
+          <div class="event-date">
+            <div class="event-date-day">19</div>
+            <div class="event-date-month">Apr</div>
+          </div>
+          <div class="event-divider"></div>
+          <div style="flex:1;">
+            <div class="event-info-title">PEN World Voices Festival</div>
+            <div class="event-info-meta">
+              <span>
+                <svg style="vertical-align:middle;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Symphony Space, 2537 Broadway, NYC
+              </span>
+              <span>3:00 PM · $22</span>
+              <span>Keynote Reading</span>
+            </div>
+          </div>
+          <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px;">
+            Buy Tickets →
+          </wired-button>
+        </div>
+
+        <div class="event-row">
+          <div class="event-date">
+            <div class="event-date-day">03</div>
+            <div class="event-date-month">May</div>
+          </div>
+          <div class="event-divider"></div>
+          <div style="flex:1;">
+            <div class="event-info-title">Columbia University — Science &amp; Fiction Lecture Series</div>
+            <div class="event-info-meta">
+              <span>
+                <svg style="vertical-align:middle;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Low Library, Columbia University, Morningside Heights
+              </span>
+              <span>5:00 PM · Free (Students Priority)</span>
+              <span>Lecture + Workshop</span>
+            </div>
+          </div>
+          <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px;">
+            Register →
+          </wired-button>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- ══════════════ NEWSLETTER ══════════════ -->
+  <div class="newsletter-section" id="contact">
+    <div class="newsletter-inner">
+      <div>
+        <div class="section-label" style="color:#666; letter-spacing:3px; font-size:13px;">STAY IN THE LOOP</div>
+        <div class="newsletter-heading">The Transmission</div>
+        <p class="newsletter-sub">
+          Mira's irregular newsletter. New chapters, event announcements, what she's reading, and occasional dispatches on astrophysics and plants.
+        </p>
+        <p style="font-size:13px; color:#666; margin-top:16px;">
+          No algorithms. No sponsors. Unsubscribe any time.<br>
+          Joining 34,000 readers across 61 countries.
+        </p>
+      </div>
+      <div class="newsletter-form">
+        <div>
+          <div style="font-size:13px; color:#999; text-transform:uppercase; letter-spacing:2px; margin-bottom:6px;">Your Name</div>
+          <wired-input placeholder="First name" style="width:100%; font-family:'Patrick Hand',cursive; font-size:16px;"></wired-input>
+        </div>
+        <div>
+          <div style="font-size:13px; color:#999; text-transform:uppercase; letter-spacing:2px; margin-bottom:6px;">Email Address</div>
+          <wired-input placeholder="you@example.com" style="width:100%; font-family:'Patrick Hand',cursive; font-size:16px;"></wired-input>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; margin-top:4px;">
+          <wired-checkbox style="font-family:'Patrick Hand',cursive; font-size:16px; color:#aaa;">
+            I'd also like event notifications for NYC
+          </wired-checkbox>
+        </div>
+        <div style="display:flex; gap:12px; margin-top:8px;">
+          <wired-button style="font-family:'Patrick Hand',cursive; font-size:16px; background:#f0f0f0; color:#222;">
+            Subscribe to The Transmission →
+          </wired-button>
+        </div>
+        <div style="font-size:13px; color:#555; margin-top:8px;">
+          Or reach out directly:
+          <a href="#" style="color:#aaa; text-decoration:underline;">press@mirasolano.com</a>
+          &nbsp;·&nbsp;
+          <a href="#" style="color:#aaa; text-decoration:underline;">rights@mirasolano.com</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <footer class="footer">
+    <div style="font-size:16px; font-weight:bold; color:#555;">Mira Solano</div>
+    <ul class="footer-links">
+      <li><a>Instagram</a></li>
+      <li><a>Goodreads</a></li>
+      <li><a>BookShop.org</a></li>
+      <li><a>Accessibility</a></li>
+      <li><a>Press &amp; Rights</a></li>
+    </ul>
+    <div>© 2026 Mira Solano. All rights reserved.</div>
+  </footer>
+
+  <script>
+    function scrollTo(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>

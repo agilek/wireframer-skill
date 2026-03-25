@@ -39,6 +39,14 @@ Generate a wireframe prototype for: a SaaS dashboard with a sidebar, KPI overvie
 
 ---
 
+## Live previews
+
+| SaaS Dashboard | Bio / Profile Page |
+|---|---|
+| [![Dashboard](samples/screenshots/dashboard.png)](https://agilek.github.io/wireframer-skill/samples/dashboard.html) | [![Bio](samples/screenshots/bio.png)](https://agilek.github.io/wireframer-skill/samples/bio.html) |
+
+---
+
 ## What gets generated
 
 - **Wired Elements** — all interactive UI (buttons, inputs, cards, checkboxes, tabs, toggles, etc.) uses [`wired-elements`](https://github.com/rough-stuff/wired-elements) web components for a hand-drawn SVG look

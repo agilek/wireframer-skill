@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acme SaaS — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet" />
+  <script type="module" src="https://unpkg.com/wired-elements?module"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 16px; }
+
+    body {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 16px;
+      background-color: #f7f7f7;
+      background-image: radial-gradient(#d7d7d7 1px, transparent 1px);
+      background-size: 20px 20px;
+      color: #222;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ─────────────────────────────────────────────── */
+    .sidebar {
+      width: 220px;
+      min-height: 100vh;
+      background: #fff;
+      border-right: 2px solid #333;
+      border-radius: 0 255px 15px 0 / 0 15px 225px 15px;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 16px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-logo {
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #333;
+      border-radius: 0 0 255px 15px / 0 0 15px 225px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .sidebar-logo span {
+      font-size: 13px;
+      display: block;
+      color: #666;
+      font-weight: normal;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav-section-label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #888;
+      margin: 16px 0 6px 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #333;
+      text-decoration: none;
+      transition: background 0.15s;
+      margin-bottom: 2px;
+    }
+
+    .nav-item:hover { background: #eee; }
+
+    .nav-item.active {
+      background: #222;
+      color: #fff;
+      border: 2px solid #333;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    }
+
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 2px dashed #ccc;
+    }
+
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border: 2px solid #333;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      background: #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .user-info { line-height: 1.3; }
+    .user-name { font-size: 16px; font-weight: bold; }
+    .user-role { font-size: 13px; color: #777; }
+
+    /* ── MAIN CONTENT ────────────────────────────────────────── */
+    .main {
+      flex: 1;
+      padding: 32px 36px;
+      overflow-y: auto;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .page-title { font-size: 31px; line-height: 1; }
+    .page-subtitle { font-size: 13px; color: #777; margin-top: 4px; }
+
+    .header-actions { display: flex; gap: 10px; align-items: center; }
+
+    /* ── KPI ROW ─────────────────────────────────────────────── */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .kpi-card {
+      background: #fff;
+      border: 2px solid #333;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      padding: 20px 22px;
+      position: relative;
+    }
+
+    .kpi-label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    .kpi-value {
+      font-size: 31px;
+      font-weight: bold;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .kpi-delta {
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .kpi-delta.up { color: #2a6f2a; }
+    .kpi-delta.down { color: #8b2020; }
+
+    .kpi-icon {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      opacity: 0.18;
+      width: 36px;
+      height: 36px;
+    }
+
+    /* ── BOTTOM GRID ─────────────────────────────────────────── */
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 20px;
+    }
+
+    /* ── ACTIVITY TABLE ──────────────────────────────────────── */
+    .panel {
+      background: #fff;
+      border: 2px solid #333;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      padding: 22px 24px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .panel-title { font-size: 20px; font-weight: bold; }
+
+    .panel-link {
+      font-size: 13px;
+      color: #3a6ea5;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    thead tr {
+      border-bottom: 2px solid #333;
+    }
+
+    th {
+      text-align: left;
+      padding: 6px 10px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #777;
+      font-weight: normal;
+    }
+
+    tbody tr {
+      border-bottom: 1px dashed #ccc;
+      transition: background 0.12s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #f5f5f5; }
+
+    td {
+      padding: 12px 10px;
+      vertical-align: middle;
+    }
+
+    .td-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mini-avatar {
+      width: 28px;
+      height: 28px;
+      border: 1.5px solid #555;
+      border-radius: 50%;
+      background: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border: 1.5px solid #555;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      font-size: 13px;
+      background: #f0f0f0;
+    }
+
+    .badge.success { background: #d6edd6; border-color: #3a7a3a; color: #2a5a2a; }
+    .badge.pending { background: #f5edd6; border-color: #9a7a3a; color: #6a4a1a; }
+    .badge.error   { background: #edd6d6; border-color: #8a3a3a; color: #5a1a1a; }
+
+    /* ── QUICK STATS PANEL ───────────────────────────────────── */
+    .stat-list { list-style: none; }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px dashed #ccc;
+      font-size: 16px;
+    }
+
+    .stat-row:last-child { border-bottom: none; }
+    .stat-bar-wrap { width: 100%; margin-top: 12px; }
+
+    .stat-bar-bg {
+      width: 100%;
+      height: 10px;
+      border: 2px solid #333;
+      border-radius: 255px;
+      background: #eee;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .stat-bar-fill {
+      height: 100%;
+      background: #333;
+      border-radius: 255px;
+    }
+
+    .stat-channel-label { color: #555; font-size: 13px; }
+    .stat-channel-pct { font-weight: bold; font-size: 16px; }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════ SIDEBAR ══════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      ◈ Acme HQ
+      <span>workspace</span>
+    </div>
+
+    <div class="nav-section-label">Main</div>
+
+    <a class="nav-item active" onclick="navigate('dashboard')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </a>
+    <a class="nav-item" onclick="navigate('analytics')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Analytics
+    </a>
+    <a class="nav-item" onclick="navigate('projects')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg>
+      Projects
+    </a>
+    <a class="nav-item" onclick="navigate('customers')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>
+      Customers
+    </a>
+    <a class="nav-item" onclick="navigate('billing')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+      Billing
+    </a>
+
+    <div class="nav-section-label">Settings</div>
+    <a class="nav-item" onclick="navigate('settings')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Settings
+    </a>
+
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="avatar">MJ</div>
+        <div class="user-info">
+          <div class="user-name">Maya Jones</div>
+          <div class="user-role">Admin</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══════════════ SCREENS ══════════════ -->
+
+  <main class="main">
+
+    <!-- DASHBOARD SCREEN -->
+    <div class="screen" id="screen-dashboard">
+
+      <div class="page-header">
+        <div>
+          <div class="page-title">Dashboard</div>
+          <div class="page-subtitle">Wednesday, March 25, 2026 &nbsp;·&nbsp; Good morning, Maya 👋</div>
+        </div>
+        <div class="header-actions">
+          <wired-input placeholder="Search anything…" style="width:200px; font-family:'Patrick Hand',cursive;"></wired-input>
+          <wired-button style="font-family:'Patrick Hand',cursive;">+ New Report</wired-button>
+        </div>
+      </div>
+
+      <!-- KPI ROW -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-label">Monthly Revenue</div>
+          <div class="kpi-value">$84,320</div>
+          <div class="kpi-delta up">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+            +12.4% vs last month
+          </div>
+          <svg class="kpi-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Active Users</div>
+          <div class="kpi-value">3,847</div>
+          <div class="kpi-delta up">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+            +5.1% vs last week
+          </div>
+          <svg class="kpi-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Open Tickets</div>
+          <div class="kpi-value">142</div>
+          <div class="kpi-delta down">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+            +18 since yesterday
+          </div>
+          <svg class="kpi-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Churn Rate</div>
+          <div class="kpi-value">2.3%</div>
+          <div class="kpi-delta up">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+            −0.4pp improvement
+          </div>
+          <svg class="kpi-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+      </div>
+
+      <!-- BOTTOM GRID -->
+      <div class="bottom-grid">
+
+        <!-- ACTIVITY TABLE -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Recent Activity</div>
+            <span class="panel-link" onclick="navigate('analytics')">View all →</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Action</th>
+                <th>Resource</th>
+                <th>Status</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="td-user"><div class="mini-avatar">LK</div> Liam Kowalski</div></td>
+                <td>Exported report</td>
+                <td>Q1 Revenue.csv</td>
+                <td><span class="badge success">Complete</span></td>
+                <td>2 min ago</td>
+              </tr>
+              <tr>
+                <td><div class="td-user"><div class="mini-avatar">SP</div> Sara Patel</div></td>
+                <td>Invited member</td>
+                <td>team@acme.io</td>
+                <td><span class="badge pending">Pending</span></td>
+                <td>14 min ago</td>
+              </tr>
+              <tr>
+                <td><div class="td-user"><div class="mini-avatar">BT</div> Ben Torres</div></td>
+                <td>Updated billing</td>
+                <td>Pro Plan × 12</td>
+                <td><span class="badge success">Complete</span></td>
+                <td>1 hr ago</td>
+              </tr>
+              <tr>
+                <td><div class="td-user"><div class="mini-avatar">AW</div> Aiko Watanabe</div></td>
+                <td>API key rotated</td>
+                <td>prod-key-007</td>
+                <td><span class="badge success">Complete</span></td>
+                <td>3 hr ago</td>
+              </tr>
+              <tr>
+                <td><div class="td-user"><div class="mini-avatar">RN</div> Remi Nguyen</div></td>
+                <td>Webhook failed</td>
+                <td>stripe/invoice.paid</td>
+                <td><span class="badge error">Failed</span></td>
+                <td>5 hr ago</td>
+              </tr>
+              <tr>
+                <td><div class="td-user"><div class="mini-avatar">CM</div> Clara Müller</div></td>
+                <td>Created project</td>
+                <td>EMEA Expansion</td>
+                <td><span class="badge success">Complete</span></td>
+                <td>Yesterday</td>
+              </tr>
+              <tr>
+                <td><div class="td-user"><div class="mini-avatar">JD</div> James Dawson</div></td>
+                <td>Submitted ticket</td>
+                <td>#TKT-8842</td>
+                <td><span class="badge pending">Open</span></td>
+                <td>Yesterday</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- QUICK STATS SIDE PANEL -->
+        <div style="display:flex; flex-direction:column; gap:20px;">
+
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">Traffic Sources</div>
+              <span class="panel-link">Details →</span>
+            </div>
+            <ul class="stat-list">
+              <li>
+                <div class="stat-row" style="flex-direction:column; align-items:flex-start; gap:4px;">
+                  <div style="display:flex;justify-content:space-between;width:100%">
+                    <span class="stat-channel-label">Organic Search</span>
+                    <span class="stat-channel-pct">41%</span>
+                  </div>
+                  <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:41%"></div></div>
+                </div>
+              </li>
+              <li>
+                <div class="stat-row" style="flex-direction:column; align-items:flex-start; gap:4px;">
+                  <div style="display:flex;justify-content:space-between;width:100%">
+                    <span class="stat-channel-label">Direct</span>
+                    <span class="stat-channel-pct">28%</span>
+                  </div>
+                  <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:28%"></div></div>
+                </div>
+              </li>
+              <li>
+                <div class="stat-row" style="flex-direction:column; align-items:flex-start; gap:4px;">
+                  <div style="display:flex;justify-content:space-between;width:100%">
+                    <span class="stat-channel-label">Paid Ads</span>
+                    <span class="stat-channel-pct">18%</span>
+                  </div>
+                  <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:18%"></div></div>
+                </div>
+              </li>
+              <li>
+                <div class="stat-row" style="flex-direction:column; align-items:flex-start; gap:4px; border:none;">
+                  <div style="display:flex;justify-content:space-between;width:100%">
+                    <span class="stat-channel-label">Referral</span>
+                    <span class="stat-channel-pct">13%</span>
+                  </div>
+                  <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:13%"></div></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">Upcoming</div>
+            </div>
+            <ul class="stat-list">
+              <li class="stat-row">
+                <span>
+                  <div style="font-size:13px; color:#888;">Mar 28</div>
+                  Q1 Finance Review
+                </span>
+                <wired-button style="font-family:'Patrick Hand',cursive; font-size:13px;">Join</wired-button>
+              </li>
+              <li class="stat-row">
+                <span>
+                  <div style="font-size:13px; color:#888;">Apr 1</div>
+                  Sprint Planning
+                </span>
+                <wired-button style="font-family:'Patrick Hand',cursive; font-size:13px;">Join</wired-button>
+              </li>
+              <li class="stat-row" style="border:none;">
+                <span>
+                  <div style="font-size:13px; color:#888;">Apr 5</div>
+                  Investor Sync
+                </span>
+                <wired-button style="font-family:'Patrick Hand',cursive; font-size:13px;">Join</wired-button>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ ANALYTICS ══════════════ -->
+    <div class="screen" id="screen-analytics" style="display:none;">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Analytics</div>
+          <div class="page-subtitle">Last 6 months &nbsp;·&nbsp; All workspaces</div>
+        </div>
+        <div class="header-actions">
+          <wired-select style="font-family:'Patrick Hand',cursive; width:160px;">
+            <wired-item value="6m">Last 6 months</wired-item>
+            <wired-item value="3m">Last 3 months</wired-item>
+            <wired-item value="1m">This month</wired-item>
+          </wired-select>
+          <wired-button style="font-family:'Patrick Hand',cursive;">Export CSV</wired-button>
+        </div>
+      </div>
+
+      <!-- KPI mini-row -->
+      <div class="kpi-row" style="grid-template-columns:repeat(3,1fr); margin-bottom:24px;">
+        <div class="kpi-card">
+          <div class="kpi-label">Total Revenue (6mo)</div>
+          <div class="kpi-value">$471,840</div>
+          <div class="kpi-delta up">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+            +18.2% YoY
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Avg. Session Duration</div>
+          <div class="kpi-value">4m 38s</div>
+          <div class="kpi-delta up">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+            +22s vs prev period
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Conversion Rate</div>
+          <div class="kpi-value">6.7%</div>
+          <div class="kpi-delta down">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+            −0.3pp vs prev period
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px;">
+
+        <!-- Monthly Revenue Bar Chart -->
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">Monthly Revenue</div></div>
+          <div style="display:flex; align-items:flex-end; gap:10px; height:160px; padding:0 8px;">
+            <!-- bars scaled to max $84,320 -->
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; height:100%; justify-content:flex-end;">
+              <span style="font-size:13px; color:#555;">$61k</span>
+              <div style="width:100%; background:#333; border:2px solid #111; border-radius:4px 4px 0 0; height:73%;"></div>
+              <span style="font-size:13px; color:#888;">Oct</span>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; height:100%; justify-content:flex-end;">
+              <span style="font-size:13px; color:#555;">$68k</span>
+              <div style="width:100%; background:#333; border:2px solid #111; border-radius:4px 4px 0 0; height:81%;"></div>
+              <span style="font-size:13px; color:#888;">Nov</span>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; height:100%; justify-content:flex-end;">
+              <span style="font-size:13px; color:#555;">$72k</span>
+              <div style="width:100%; background:#555; border:2px solid #333; border-radius:4px 4px 0 0; height:85%;"></div>
+              <span style="font-size:13px; color:#888;">Dec</span>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; height:100%; justify-content:flex-end;">
+              <span style="font-size:13px; color:#555;">$75k</span>
+              <div style="width:100%; background:#555; border:2px solid #333; border-radius:4px 4px 0 0; height:89%;"></div>
+              <span style="font-size:13px; color:#888;">Jan</span>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; height:100%; justify-content:flex-end;">
+              <span style="font-size:13px; color:#555;">$76k</span>
+              <div style="width:100%; background:#777; border:2px solid #555; border-radius:4px 4px 0 0; height:90%;"></div>
+              <span style="font-size:13px; color:#888;">Feb</span>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; height:100%; justify-content:flex-end;">
+              <span style="font-size:13px; color:#555;">$84k</span>
+              <div style="width:100%; background:#111; border:2px solid #000; border-radius:4px 4px 0 0; height:100%;"></div>
+              <span style="font-size:13px; color:#888;">Mar</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Conversion Funnel -->
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">Conversion Funnel</div></div>
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:6px;">
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
+                <span>Visitors</span><span style="font-weight:bold;">28,400</span>
+              </div>
+              <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:100%"></div></div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
+                <span>Signed Up</span><span style="font-weight:bold;">6,210 &nbsp;<span style="color:#888;font-size:13px;">(21.9%)</span></span>
+              </div>
+              <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:22%"></div></div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
+                <span>Activated</span><span style="font-weight:bold;">3,847 &nbsp;<span style="color:#888;font-size:13px;">(13.5%)</span></span>
+              </div>
+              <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:13.5%"></div></div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
+                <span>Converted to Paid</span><span style="font-weight:bold;">1,902 &nbsp;<span style="color:#888;font-size:13px;">(6.7%)</span></span>
+              </div>
+              <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:6.7%"></div></div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
+                <span>Upgraded to Pro/Ent</span><span style="font-weight:bold;">438 &nbsp;<span style="color:#888;font-size:13px;">(1.5%)</span></span>
+              </div>
+              <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:1.5%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Pages Table -->
+      <div class="panel">
+        <div class="panel-header"><div class="panel-title">Top Pages by Sessions</div></div>
+        <table>
+          <thead><tr><th>Page</th><th>Sessions</th><th>Avg. Time on Page</th><th>Bounce Rate</th><th>Conversions</th></tr></thead>
+          <tbody>
+            <tr><td>/dashboard</td><td>14,820</td><td>6m 12s</td><td>8.4%</td><td><span class="badge success">1,204</span></td></tr>
+            <tr><td>/pricing</td><td>9,340</td><td>3m 51s</td><td>31.2%</td><td><span class="badge success">612</span></td></tr>
+            <tr><td>/integrations</td><td>6,110</td><td>4m 04s</td><td>22.7%</td><td><span class="badge pending">88</span></td></tr>
+            <tr><td>/docs/api</td><td>5,882</td><td>7m 39s</td><td>11.0%</td><td>—</td></tr>
+            <tr><td>/blog/saas-metrics-guide</td><td>4,203</td><td>5m 17s</td><td>44.1%</td><td><span class="badge pending">31</span></td></tr>
+            <tr><td>/login</td><td>3,991</td><td>1m 02s</td><td>5.3%</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════════ PROJECTS ══════════════ -->
+    <div class="screen" id="screen-projects" style="display:none;">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Projects</div>
+          <div class="page-subtitle">12 active projects across 4 teams</div>
+        </div>
+        <div class="header-actions">
+          <wired-input placeholder="Filter projects…" style="width:180px; font-family:'Patrick Hand',cursive;"></wired-input>
+          <wired-button style="font-family:'Patrick Hand',cursive;">+ New Project</wired-button>
+        </div>
+      </div>
+
+      <!-- Summary row -->
+      <div class="kpi-row" style="grid-template-columns:repeat(4,1fr); margin-bottom:24px;">
+        <div class="kpi-card"><div class="kpi-label">Total Projects</div><div class="kpi-value" style="font-size:26px;">12</div><div class="kpi-delta" style="color:#888;">4 teams</div></div>
+        <div class="kpi-card"><div class="kpi-label">In Progress</div><div class="kpi-value" style="font-size:26px;">5</div><div class="kpi-delta up">2 on track</div></div>
+        <div class="kpi-card"><div class="kpi-label">Blocked</div><div class="kpi-value" style="font-size:26px;">2</div><div class="kpi-delta down">needs attention</div></div>
+        <div class="kpi-card"><div class="kpi-label">Completed (MTD)</div><div class="kpi-value" style="font-size:26px;">3</div><div class="kpi-delta up">+1 vs last month</div></div>
+      </div>
+
+      <!-- Kanban board -->
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:16px;">
+
+        <!-- Backlog -->
+        <div class="panel" style="padding:16px;">
+          <div class="panel-header" style="margin-bottom:12px;">
+            <div class="panel-title" style="font-size:16px; text-transform:uppercase; letter-spacing:1px;">Backlog <span style="font-weight:normal;color:#888;">(3)</span></div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="background:#f5f5f5; border:2px solid #ccc; border-radius:255px 15px 225px 15px / 15px 225px 15px 255px; padding:12px;">
+              <div style="font-size:13px; font-weight:bold; margin-bottom:4px;">EMEA Localization</div>
+              <div style="font-size:13px; color:#888;">Product · Clara M.</div>
+              <div style="margin-top:8px;"><span class="badge">Low Priority</span></div>
+            </div>
+            <div style="background:#f5f5f5; border:2px solid #ccc; border-radius:255px 15px 225px 15px / 15px 225px 15px 255px; padding:12px;">
+              <div style="font-size:13px; font-weight:bold; margin-bottom:4px;">Dark Mode UI</div>
+              <div style="font-size:13px; color:#888;">Design · Sara P.</div>
+              <div style="margin-top:8px;"><span class="badge">Medium</span></div>
+            </div>
+            <div style="background:#f5f5f5; border:2px solid #ccc; border-radius:255px 15px 225px 15px / 15px 225px 15px 255px; padding:12px;">
+              <div style="font-size:13px; font-weight:bold; margin-bottom:4px;">SSO with Okta</div>
+              <div style="font-size:13px; color:#888;">Engineering · Ben T.</div>
+              <div style="margin-top:8px;"><span class="badge">Medium</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- In Progress -->
+        <div class="panel" style="padding:16px;">
+          <div class="panel-header" style="margin-bottom:12px;">
+            <div class="panel-title" style="font-size:16px; text-transform:uppercase; letter-spacing:1px;">In Progress <span style="font-weight:normal;color:#888;">(5)</span></div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="background:#fff; border:2px solid #333; border-radius:255px 15px 225px 15px / 15px 225px 15px 255px; padding:12px;">
+              <div style="font-size:13px; font-weight:bold; margin-bottom:4px;">Q2 Pricing Revamp</div>
+              <div style="font-size:13px; color:#888;">Growth · Liam K.</div>
+              <div class="stat-bar-bg" style="margin-top:8px;"><div class="stat-bar-fill" style="width:65%"></div></div>
+              <div style="font-size:13px; color:#777; margin-top:3px;">65% complete</div>
+            </div>
+            <div style="background:#fff; border:2px solid #333; border-radius:255px 15px 225px 15px / 15px 225px 15px 255px; padding:12px;">
+              <div style="font-size:13px; font-weight:bold; margin-bottom:4px;">API v3 Migration</div>
+              <div style="font-size:13px; color:#888;">Engineering · Aiko W.</div>
+              <div class="stat-bar-bg" style="margin-top:8px;"><div class="stat-bar-fill" style="width:40%"></div></div>
+              <div style="font-size:13px; color:#777; margin-top:3px;">40% complete</div>
+            </div>
+            <div style="background:#fff; border:2px solid #333; border-radius:255px 15px 225px 15px / 15px 225px 15px 255px; padding:12px;">
+              <div style="font-size:13px; font-weight:bold; margin-bottom:4px;">Mobile App MVP</div>
+              <div style="font-size:13px; color:#888;">Product · Remi N.</div>
+              <div class="stat-bar-bg" style="margin-top:8px;"><div class="stat-bar-fill" style="width:20%"></div></div>
+              <div style="font-size:13px; color:#777; margin-top:3px;">20% complete</div>
+            </div>
+            <div style="background:#fff; border:2px solid #333; border-radius:255px 15px 225px 15px / 15px 225px 15px 255px; padding:12px;">
+              <div style="font-size:13px; font-weight:bold; margin-bottom:4px;">Onboarding Redesign</div>
+              <div style="font-size:13px; color:#888;">Design · Sara P.</div>
+              <div class="stat-bar-bg" style="margin-top:8px;"><div class="stat-bar-fill" style="width:80%"></div></div>
+              <div style="font-size:13px; color:#777; margin-top:3px;">80% complete</div>
+            </div>
+            <div style="background:#fff; border:2px solid #333; border-radius:255px 15px 225px 15px / 15px 225px 15px 255px; padding:12px;">
+              <div style="font-size:13px; font-weight:bold; margin-bottom:4px;">Data Export Tooling</div>
+              <div style="font-size:13px; color:#888;">Engineering · James D.</div>
+              <div class="stat-bar-bg" style="margin-top:8px;"><div class="stat-bar-fill" style="width:55%"></div></div>
+              <div style="font-size:13px; color:#777; margin-top:3px;">55% complete</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blocked -->
+        <div class="panel" style="padding:16px;">
+          <div class="panel-header" style="margin-bottom:12px;">
+            <div class="panel-title" style="font-size:16px; text-transform:uppercase; letter-spacing:1px; color:#8b2020;">Blocked <span style="font-weight:normal;color:#888;">(2)</span></div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="background:#fff8f8; border:2px solid #c77; border-radius:255px 15px 225px 15px / 15px 225px 15px 255px; padding:12px;">
+              <div style="font-size:13px; font-weight:bold; margin-bottom:4px;">Stripe Webhook Fix</div>
+              <div style="font-size:13px; color:#888;">Engineering · Remi N.</div>
+              <div style="margin-top:8px; font-size:13px; color:#8b2020; border:1px dashed #c77; padding:4px 8px; border-radius:6px;">⚠ Waiting on Stripe support response</div>
+            </div>
+            <div style="background:#fff8f8; border:2px solid #c77; border-radius:255px 15px 225px 15px / 15px 225px 15px 255px; padding:12px;">
+              <div style="font-size:13px; font-weight:bold; margin-bottom:4px;">SOC 2 Audit Prep</div>
+              <div style="font-size:13px; color:#888;">Security · Maya J.</div>
+              <div style="margin-top:8px; font-size:13px; color:#8b2020; border:1px dashed #c77; padding:4px 8px; border-radius:6px;">⚠ Pending vendor documentation</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Done -->
+        <div class="panel" style="padding:16px;">
+          <div class="panel-header" style="margin-bottom:12px;">
+            <div class="panel-title" style="font-size:16px; text-transform:uppercase; letter-spacing:1px; color:#2a5a2a;">Done <span style="font-weight:normal;color:#888;">(3)</span></div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="background:#f6faf6; border:2px solid #7a7; border-radius:255px 15px 225px 15px / 15px 225px 15px 255px; padding:12px; opacity:0.85;">
+              <div style="font-size:13px; font-weight:bold; margin-bottom:4px; text-decoration:line-through; color:#666;">Slack Integration</div>
+              <div style="font-size:13px; color:#888;">Shipped Mar 18 · Liam K.</div>
+              <div style="margin-top:8px;"><span class="badge success">Shipped</span></div>
+            </div>
+            <div style="background:#f6faf6; border:2px solid #7a7; border-radius:255px 15px 225px 15px / 15px 225px 15px 255px; padding:12px; opacity:0.85;">
+              <div style="font-size:13px; font-weight:bold; margin-bottom:4px; text-decoration:line-through; color:#666;">CSV Bulk Import</div>
+              <div style="font-size:13px; color:#888;">Shipped Mar 10 · Ben T.</div>
+              <div style="margin-top:8px;"><span class="badge success">Shipped</span></div>
+            </div>
+            <div style="background:#f6faf6; border:2px solid #7a7; border-radius:255px 15px 225px 15px / 15px 225px 15px 255px; padding:12px; opacity:0.85;">
+              <div style="font-size:13px; font-weight:bold; margin-bottom:4px; text-decoration:line-through; color:#666;">Password Reset Flow</div>
+              <div style="font-size:13px; color:#888;">Shipped Mar 4 · Aiko W.</div>
+              <div style="margin-top:8px;"><span class="badge success">Shipped</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════ CUSTOMERS ══════════════ -->
+    <div class="screen" id="screen-customers" style="display:none;">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Customers</div>
+          <div class="page-subtitle">1,902 paying accounts &nbsp;·&nbsp; $84,320 MRR</div>
+        </div>
+        <div class="header-actions">
+          <wired-input placeholder="Search customers…" style="width:200px; font-family:'Patrick Hand',cursive;"></wired-input>
+          <wired-select style="font-family:'Patrick Hand',cursive; width:140px;">
+            <wired-item value="all">All plans</wired-item>
+            <wired-item value="starter">Starter</wired-item>
+            <wired-item value="pro">Pro</wired-item>
+            <wired-item value="enterprise">Enterprise</wired-item>
+          </wired-select>
+          <wired-button style="font-family:'Patrick Hand',cursive;">+ Add Customer</wired-button>
+        </div>
+      </div>
+
+      <!-- KPI row -->
+      <div class="kpi-row" style="grid-template-columns:repeat(4,1fr); margin-bottom:24px;">
+        <div class="kpi-card"><div class="kpi-label">Total Accounts</div><div class="kpi-value" style="font-size:26px;">1,902</div><div class="kpi-delta up">+48 this month</div></div>
+        <div class="kpi-card"><div class="kpi-label">Enterprise</div><div class="kpi-value" style="font-size:26px;">87</div><div class="kpi-delta" style="color:#888;">$41,280 MRR</div></div>
+        <div class="kpi-card"><div class="kpi-label">Pro</div><div class="kpi-value" style="font-size:26px;">351</div><div class="kpi-delta" style="color:#888;">$28,080 MRR</div></div>
+        <div class="kpi-card"><div class="kpi-label">Starter</div><div class="kpi-value" style="font-size:26px;">1,464</div><div class="kpi-delta" style="color:#888;">$14,640 MRR</div></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">All Customers</div>
+          <span class="panel-link">Export →</span>
+        </div>
+        <table>
+          <thead><tr><th>Company</th><th>Plan</th><th>MRR</th><th>Seats</th><th>Health</th><th>Status</th><th>Joined</th><th></th></tr></thead>
+          <tbody>
+            <tr>
+              <td><div class="td-user"><div class="mini-avatar" style="background:#c8d8f0;">NX</div><div><div style="font-size:13px;">Nexora Labs</div><div style="font-size:13px;color:#888;">nexora.io</div></div></div></td>
+              <td><span class="badge">Enterprise</span></td><td style="font-weight:bold;">$2,400</td><td>120</td>
+              <td><div class="stat-bar-bg" style="width:80px;display:inline-block;vertical-align:middle;"><div class="stat-bar-fill" style="width:88%"></div></div> <span style="font-size:13px;">88%</span></td>
+              <td><span class="badge success">Active</span></td><td>Jan 2024</td>
+              <td><span class="panel-link" style="font-size:13px;">View →</span></td>
+            </tr>
+            <tr>
+              <td><div class="td-user"><div class="mini-avatar" style="background:#d0f0d0;">VR</div><div><div style="font-size:13px;">Verdant Retail</div><div style="font-size:13px;color:#888;">verdant.co</div></div></div></td>
+              <td><span class="badge">Enterprise</span></td><td style="font-weight:bold;">$1,800</td><td>90</td>
+              <td><div class="stat-bar-bg" style="width:80px;display:inline-block;vertical-align:middle;"><div class="stat-bar-fill" style="width:62%"></div></div> <span style="font-size:13px;">62%</span></td>
+              <td><span class="badge pending">At Risk</span></td><td>Mar 2024</td>
+              <td><span class="panel-link" style="font-size:13px;">View →</span></td>
+            </tr>
+            <tr>
+              <td><div class="td-user"><div class="mini-avatar" style="background:#f0e0c8;">PX</div><div><div style="font-size:13px;">Proxima Health</div><div style="font-size:13px;color:#888;">proximahealth.com</div></div></div></td>
+              <td><span class="badge">Pro</span></td><td style="font-weight:bold;">$480</td><td>24</td>
+              <td><div class="stat-bar-bg" style="width:80px;display:inline-block;vertical-align:middle;"><div class="stat-bar-fill" style="width:95%"></div></div> <span style="font-size:13px;">95%</span></td>
+              <td><span class="badge success">Active</span></td><td>Jun 2024</td>
+              <td><span class="panel-link" style="font-size:13px;">View →</span></td>
+            </tr>
+            <tr>
+              <td><div class="td-user"><div class="mini-avatar" style="background:#e8d0f0;">LM</div><div><div style="font-size:13px;">Luminary Media</div><div style="font-size:13px;color:#888;">luminarymedia.com</div></div></div></td>
+              <td><span class="badge">Pro</span></td><td style="font-weight:bold;">$320</td><td>16</td>
+              <td><div class="stat-bar-bg" style="width:80px;display:inline-block;vertical-align:middle;"><div class="stat-bar-fill" style="width:71%"></div></div> <span style="font-size:13px;">71%</span></td>
+              <td><span class="badge success">Active</span></td><td>Aug 2024</td>
+              <td><span class="panel-link" style="font-size:13px;">View →</span></td>
+            </tr>
+            <tr>
+              <td><div class="td-user"><div class="mini-avatar" style="background:#f0f0c0;">AG</div><div><div style="font-size:13px;">Agriflow Systems</div><div style="font-size:13px;color:#888;">agriflow.io</div></div></div></td>
+              <td><span class="badge">Starter</span></td><td style="font-weight:bold;">$49</td><td>3</td>
+              <td><div class="stat-bar-bg" style="width:80px;display:inline-block;vertical-align:middle;"><div class="stat-bar-fill" style="width:38%"></div></div> <span style="font-size:13px;">38%</span></td>
+              <td><span class="badge error">Churned</span></td><td>Sep 2024</td>
+              <td><span class="panel-link" style="font-size:13px;">View →</span></td>
+            </tr>
+            <tr>
+              <td><div class="td-user"><div class="mini-avatar" style="background:#d0e8f8;">BW</div><div><div style="font-size:13px;">Brightwave Tech</div><div style="font-size:13px;color:#888;">brightwave.dev</div></div></div></td>
+              <td><span class="badge">Pro</span></td><td style="font-weight:bold;">$240</td><td>12</td>
+              <td><div class="stat-bar-bg" style="width:80px;display:inline-block;vertical-align:middle;"><div class="stat-bar-fill" style="width:82%"></div></div> <span style="font-size:13px;">82%</span></td>
+              <td><span class="badge success">Active</span></td><td>Nov 2024</td>
+              <td><span class="panel-link" style="font-size:13px;">View →</span></td>
+            </tr>
+            <tr>
+              <td><div class="td-user"><div class="mini-avatar" style="background:#f8d8d8;">KO</div><div><div style="font-size:13px;">Korova Brands</div><div style="font-size:13px;color:#888;">korova.co</div></div></div></td>
+              <td><span class="badge">Starter</span></td><td style="font-weight:bold;">$49</td><td>2</td>
+              <td><div class="stat-bar-bg" style="width:80px;display:inline-block;vertical-align:middle;"><div class="stat-bar-fill" style="width:55%"></div></div> <span style="font-size:13px;">55%</span></td>
+              <td><span class="badge pending">Trial</span></td><td>Mar 2026</td>
+              <td><span class="panel-link" style="font-size:13px;">View →</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="text-align:center; padding-top:16px; border-top:1px dashed #ccc; margin-top:4px;">
+          <span class="panel-link" style="font-size:13px;">Load more customers (1,895 remaining) →</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ BILLING ══════════════ -->
+    <div class="screen" id="screen-billing" style="display:none;">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Billing</div>
+          <div class="page-subtitle">Acme HQ Workspace &nbsp;·&nbsp; Pro Plan</div>
+        </div>
+        <div class="header-actions">
+          <wired-button style="font-family:'Patrick Hand',cursive;">Manage Plan</wired-button>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px;">
+
+        <!-- Current Plan -->
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">Current Plan</div></div>
+          <div style="border:2px solid #333; border-radius:255px 15px 225px 15px / 15px 225px 15px 255px; padding:18px 20px; background:#f9f9f9;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <div style="font-size:20px; font-weight:bold;">Pro Plan</div>
+              <span class="badge success">Active</span>
+            </div>
+            <div style="font-size:31px; font-weight:bold; margin-bottom:4px;">$480 <span style="font-size:16px; font-weight:normal; color:#888;">/ month</span></div>
+            <div style="font-size:13px; color:#666; margin-bottom:14px;">Billed monthly &nbsp;·&nbsp; Renews Apr 25, 2026</div>
+            <wired-divider></wired-divider>
+            <ul style="list-style:none; margin-top:12px; display:flex; flex-direction:column; gap:6px; font-size:13px;">
+              <li>✓ &nbsp;Up to 25 seats (currently using 18)</li>
+              <li>✓ &nbsp;Unlimited projects</li>
+              <li>✓ &nbsp;Advanced analytics</li>
+              <li>✓ &nbsp;Priority support (4h SLA)</li>
+              <li>✓ &nbsp;Custom integrations</li>
+            </ul>
+            <div style="margin-top:14px; display:flex; gap:10px;">
+              <wired-button style="font-family:'Patrick Hand',cursive;">Upgrade to Enterprise</wired-button>
+              <wired-button style="font-family:'Patrick Hand',cursive; color:#8b2020;">Cancel Plan</wired-button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Usage + Payment -->
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">Usage This Month</div></div>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+                  <span>Seats</span><span style="font-weight:bold;">18 / 25</span>
+                </div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:72%"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+                  <span>API Calls</span><span style="font-weight:bold;">84,200 / 100k</span>
+                </div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:84%"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+                  <span>Storage</span><span style="font-weight:bold;">22 GB / 50 GB</span>
+                </div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill" style="width:44%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">Payment Method</div></div>
+            <div style="display:flex; align-items:center; gap:14px; padding:10px 0;">
+              <div style="border:2px solid #333; border-radius:6px; padding:6px 12px; font-size:18px; background:#f5f5f5; font-weight:bold; letter-spacing:2px;">VISA</div>
+              <div>
+                <div style="font-size:16px; font-weight:bold;">•••• •••• •••• 4829</div>
+                <div style="font-size:13px; color:#888;">Expires 09/2027 &nbsp;·&nbsp; Maya Jones</div>
+              </div>
+            </div>
+            <div style="display:flex; gap:8px; margin-top:6px;">
+              <wired-button style="font-family:'Patrick Hand',cursive; font-size:13px;">Update Card</wired-button>
+              <wired-button style="font-family:'Patrick Hand',cursive; font-size:13px;">Add Backup</wired-button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Invoice History -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Invoice History</div>
+          <span class="panel-link">Download All →</span>
+        </div>
+        <table>
+          <thead><tr><th>Invoice #</th><th>Period</th><th>Amount</th><th>Status</th><th>Date</th><th></th></tr></thead>
+          <tbody>
+            <tr><td>INV-2026-031</td><td>Mar 1 – Mar 31, 2026</td><td style="font-weight:bold;">$480.00</td><td><span class="badge pending">Due Apr 1</span></td><td>Mar 25, 2026</td><td><span class="panel-link" style="font-size:13px;">PDF →</span></td></tr>
+            <tr><td>INV-2026-024</td><td>Feb 1 – Feb 28, 2026</td><td style="font-weight:bold;">$480.00</td><td><span class="badge success">Paid</span></td><td>Feb 25, 2026</td><td><span class="panel-link" style="font-size:13px;">PDF →</span></td></tr>
+            <tr><td>INV-2026-017</td><td>Jan 1 – Jan 31, 2026</td><td style="font-weight:bold;">$480.00</td><td><span class="badge success">Paid</span></td><td>Jan 25, 2026</td><td><span class="panel-link" style="font-size:13px;">PDF →</span></td></tr>
+            <tr><td>INV-2025-312</td><td>Dec 1 – Dec 31, 2025</td><td style="font-weight:bold;">$480.00</td><td><span class="badge success">Paid</span></td><td>Dec 25, 2025</td><td><span class="panel-link" style="font-size:13px;">PDF →</span></td></tr>
+            <tr><td>INV-2025-305</td><td>Nov 1 – Nov 30, 2025</td><td style="font-weight:bold;">$480.00</td><td><span class="badge success">Paid</span></td><td>Nov 25, 2025</td><td><span class="panel-link" style="font-size:13px;">PDF →</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════════ SETTINGS ══════════════ -->
+    <div class="screen" id="screen-settings" style="display:none;">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Settings</div>
+          <div class="page-subtitle">Workspace and account configuration</div>
+        </div>
+        <div class="header-actions">
+          <wired-button style="font-family:'Patrick Hand',cursive;">Save Changes</wired-button>
+        </div>
+      </div>
+
+      <!-- Settings tabs -->
+      <div style="display:flex; gap:0; margin-bottom:24px; border-bottom:2px solid #333;">
+        <span class="settings-tab active-tab" onclick="settingsTab('profile')" style="padding:8px 20px; cursor:pointer; border-bottom:3px solid #222; font-weight:bold; font-size:16px;">Profile</span>
+        <span class="settings-tab" onclick="settingsTab('team')" style="padding:8px 20px; cursor:pointer; color:#888; font-size:16px;">Team</span>
+        <span class="settings-tab" onclick="settingsTab('integrations')" style="padding:8px 20px; cursor:pointer; color:#888; font-size:16px;">Integrations</span>
+        <span class="settings-tab" onclick="settingsTab('api')" style="padding:8px 20px; cursor:pointer; color:#888; font-size:16px;">API Keys</span>
+      </div>
+
+      <!-- Profile Tab -->
+      <div class="settings-panel" id="stab-profile">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">Personal Info</div></div>
+            <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
+              <div class="avatar" style="width:60px; height:60px; font-size:20px;">MJ</div>
+              <div>
+                <div style="font-size:16px; font-weight:bold;">Maya Jones</div>
+                <div style="font-size:13px; color:#888;">maya@acmehq.io</div>
+                <span class="panel-link" style="font-size:13px;">Change photo →</span>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <div>
+                <div style="font-size:13px; color:#888; margin-bottom:4px; text-transform:uppercase; letter-spacing:1px;">Full Name</div>
+                <wired-input value="Maya Jones" style="width:100%; font-family:'Patrick Hand',cursive;"></wired-input>
+              </div>
+              <div>
+                <div style="font-size:13px; color:#888; margin-bottom:4px; text-transform:uppercase; letter-spacing:1px;">Email</div>
+                <wired-input value="maya@acmehq.io" style="width:100%; font-family:'Patrick Hand',cursive;"></wired-input>
+              </div>
+              <div>
+                <div style="font-size:13px; color:#888; margin-bottom:4px; text-transform:uppercase; letter-spacing:1px;">Role</div>
+                <wired-input value="Admin" style="width:100%; font-family:'Patrick Hand',cursive;"></wired-input>
+              </div>
+              <div>
+                <div style="font-size:13px; color:#888; margin-bottom:4px; text-transform:uppercase; letter-spacing:1px;">Timezone</div>
+                <wired-select style="width:100%; font-family:'Patrick Hand',cursive;">
+                  <wired-item value="est">America/New_York (EST)</wired-item>
+                  <wired-item value="pst">America/Los_Angeles (PST)</wired-item>
+                  <wired-item value="utc">UTC</wired-item>
+                  <wired-item value="cet">Europe/Berlin (CET)</wired-item>
+                </wired-select>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="panel">
+              <div class="panel-header"><div class="panel-title">Workspace</div></div>
+              <div style="display:flex; flex-direction:column; gap:14px;">
+                <div>
+                  <div style="font-size:13px; color:#888; margin-bottom:4px; text-transform:uppercase; letter-spacing:1px;">Workspace Name</div>
+                  <wired-input value="Acme HQ" style="width:100%; font-family:'Patrick Hand',cursive;"></wired-input>
+                </div>
+                <div>
+                  <div style="font-size:13px; color:#888; margin-bottom:4px; text-transform:uppercase; letter-spacing:1px;">Workspace URL</div>
+                  <wired-input value="acmehq.app.io" style="width:100%; font-family:'Patrick Hand',cursive;"></wired-input>
+                </div>
+                <div>
+                  <div style="font-size:13px; color:#888; margin-bottom:4px; text-transform:uppercase; letter-spacing:1px;">Industry</div>
+                  <wired-select style="width:100%; font-family:'Patrick Hand',cursive;">
+                    <wired-item value="saas">SaaS / Software</wired-item>
+                    <wired-item value="retail">Retail / E-commerce</wired-item>
+                    <wired-item value="health">Healthcare</wired-item>
+                    <wired-item value="finance">Finance</wired-item>
+                  </wired-select>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header"><div class="panel-title">Notifications</div></div>
+              <div style="display:flex; flex-direction:column; gap:12px; font-size:16px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span>Weekly digest email</span>
+                  <wired-toggle checked></wired-toggle>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span>New ticket alerts</span>
+                  <wired-toggle checked></wired-toggle>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span>Billing reminders</span>
+                  <wired-toggle checked></wired-toggle>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span>Product updates</span>
+                  <wired-toggle></wired-toggle>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team Tab -->
+      <div class="settings-panel" id="stab-team" style="display:none;">
+        <div class="panel" style="margin-bottom:20px;">
+          <div class="panel-header">
+            <div class="panel-title">Team Members <span style="font-weight:normal; color:#888; font-size:16px;">(18 / 25 seats)</span></div>
+            <wired-button style="font-family:'Patrick Hand',cursive; font-size:13px;">Invite Member</wired-button>
+          </div>
+          <table>
+            <thead><tr><th>Member</th><th>Role</th><th>Department</th><th>Last Active</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><div class="td-user"><div class="mini-avatar">MJ</div>Maya Jones</div></td><td>Admin</td><td>Leadership</td><td>Now</td><td><span class="badge success">Active</span></td><td><span class="panel-link" style="font-size:13px;">Edit →</span></td></tr>
+              <tr><td><div class="td-user"><div class="mini-avatar">LK</div>Liam Kowalski</div></td><td>Manager</td><td>Growth</td><td>5 min ago</td><td><span class="badge success">Active</span></td><td><span class="panel-link" style="font-size:13px;">Edit →</span></td></tr>
+              <tr><td><div class="td-user"><div class="mini-avatar">SP</div>Sara Patel</div></td><td>Member</td><td>Design</td><td>32 min ago</td><td><span class="badge success">Active</span></td><td><span class="panel-link" style="font-size:13px;">Edit →</span></td></tr>
+              <tr><td><div class="td-user"><div class="mini-avatar">BT</div>Ben Torres</div></td><td>Member</td><td>Engineering</td><td>1 hr ago</td><td><span class="badge success">Active</span></td><td><span class="panel-link" style="font-size:13px;">Edit →</span></td></tr>
+              <tr><td><div class="td-user"><div class="mini-avatar">AW</div>Aiko Watanabe</div></td><td>Member</td><td>Engineering</td><td>3 hr ago</td><td><span class="badge success">Active</span></td><td><span class="panel-link" style="font-size:13px;">Edit →</span></td></tr>
+              <tr><td><div class="td-user"><div class="mini-avatar">RN</div>Remi Nguyen</div></td><td>Member</td><td>Engineering</td><td>Yesterday</td><td><span class="badge success">Active</span></td><td><span class="panel-link" style="font-size:13px;">Edit →</span></td></tr>
+              <tr><td><div class="td-user"><div class="mini-avatar">CM</div>Clara Müller</div></td><td>Member</td><td>Product</td><td>Yesterday</td><td><span class="badge success">Active</span></td><td><span class="panel-link" style="font-size:13px;">Edit →</span></td></tr>
+              <tr><td><div class="td-user"><div class="mini-avatar">JD</div>James Dawson</div></td><td>Viewer</td><td>Support</td><td>2 days ago</td><td><span class="badge pending">Invited</span></td><td><span class="panel-link" style="font-size:13px;">Edit →</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Integrations Tab -->
+      <div class="settings-panel" id="stab-integrations" style="display:none;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+
+          <div class="panel" style="display:flex; align-items:center; justify-content:space-between;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:42px;height:42px;border:2px solid #333;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;background:#f5f5f5;">S</div>
+              <div><div style="font-weight:bold; font-size:16px;">Slack</div><div style="font-size:13px;color:#888;">Get alerts in #acme-alerts</div></div>
+            </div>
+            <span class="badge success">Connected</span>
+          </div>
+
+          <div class="panel" style="display:flex; align-items:center; justify-content:space-between;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:42px;height:42px;border:2px solid #333;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;background:#f5f5f5;">$</div>
+              <div><div style="font-weight:bold; font-size:16px;">Stripe</div><div style="font-size:13px;color:#888;">Payment processing &amp; invoices</div></div>
+            </div>
+            <span class="badge success">Connected</span>
+          </div>
+
+          <div class="panel" style="display:flex; align-items:center; justify-content:space-between;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:42px;height:42px;border:2px solid #333;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;background:#f5f5f5;">G</div>
+              <div><div style="font-weight:bold; font-size:16px;">Google Analytics</div><div style="font-size:13px;color:#888;">GA4 property UA-38492001</div></div>
+            </div>
+            <span class="badge success">Connected</span>
+          </div>
+
+          <div class="panel" style="display:flex; align-items:center; justify-content:space-between;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:42px;height:42px;border:2px solid #333;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;background:#f5f5f5;">H</div>
+              <div><div style="font-weight:bold; font-size:16px;">HubSpot</div><div style="font-size:13px;color:#888;">CRM &amp; contact sync</div></div>
+            </div>
+            <span class="badge pending">Pending auth</span>
+          </div>
+
+          <div class="panel" style="display:flex; align-items:center; justify-content:space-between;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:42px;height:42px;border:2px solid #333;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;background:#f5f5f5;">Z</div>
+              <div><div style="font-weight:bold; font-size:16px;">Zapier</div><div style="font-size:13px;color:#888;">Automation workflows</div></div>
+            </div>
+            <wired-button style="font-family:'Patrick Hand',cursive; font-size:13px;">Connect</wired-button>
+          </div>
+
+          <div class="panel" style="display:flex; align-items:center; justify-content:space-between;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:42px;height:42px;border:2px solid #333;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;background:#f5f5f5;">J</div>
+              <div><div style="font-weight:bold; font-size:16px;">Jira</div><div style="font-size:13px;color:#888;">Sync projects &amp; tickets</div></div>
+            </div>
+            <wired-button style="font-family:'Patrick Hand',cursive; font-size:13px;">Connect</wired-button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- API Keys Tab -->
+      <div class="settings-panel" id="stab-api" style="display:none;">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">API Keys</div>
+            <wired-button style="font-family:'Patrick Hand',cursive; font-size:13px;">+ Generate New Key</wired-button>
+          </div>
+          <table>
+            <thead><tr><th>Name</th><th>Key</th><th>Permissions</th><th>Last Used</th><th>Created</th><th></th></tr></thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:bold;">prod-key-007</td>
+                <td><code style="font-size:13px; background:#f0f0f0; padding:2px 6px; border-radius:4px;">ak_live_Xk9•••••••••••••3mQ</code></td>
+                <td>Read + Write</td><td>Today, 9:12 AM</td><td>Jan 4, 2026</td>
+                <td><span class="panel-link" style="font-size:13px; color:#8b2020;">Revoke →</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">staging-key</td>
+                <td><code style="font-size:13px; background:#f0f0f0; padding:2px 6px; border-radius:4px;">ak_test_Bz2•••••••••••••7rF</code></td>
+                <td>Read only</td><td>Mar 22, 2026</td><td>Feb 14, 2026</td>
+                <td><span class="panel-link" style="font-size:13px; color:#8b2020;">Revoke →</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight:bold;">zapier-webhook</td>
+                <td><code style="font-size:13px; background:#f0f0f0; padding:2px 6px; border-radius:4px;">ak_live_Wn4•••••••••••••9pL</code></td>
+                <td>Webhooks</td><td>Mar 24, 2026</td><td>Mar 1, 2026</td>
+                <td><span class="panel-link" style="font-size:13px; color:#8b2020;">Revoke →</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="margin-top:16px; padding:12px; background:#fff8f0; border:1.5px dashed #c97; border-radius:8px; font-size:13px; color:#7a4a1a;">
+            ⚠ Never share API keys in public repos or client-side code. Rotate them immediately if compromised.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const screens   = ['dashboard','analytics','projects','customers','billing','settings'];
+    const navItems  = document.querySelectorAll('.nav-item');
+
+    function navigate(target) {
+      screens.forEach(id => {
+        document.getElementById('screen-' + id).style.display = id === target ? 'block' : 'none';
+      });
+      navItems.forEach(el => {
+        const isActive = el.getAttribute('onclick') && el.getAttribute('onclick').includes("'" + target + "'");
+        el.classList.toggle('active', isActive);
+      });
+    }
+
+    function settingsTab(tab) {
+      ['profile','team','integrations','api'].forEach(t => {
+        document.getElementById('stab-' + t).style.display = t === tab ? 'block' : 'none';
+      });
+      document.querySelectorAll('.settings-tab').forEach(el => {
+        const active = el.getAttribute('onclick') && el.getAttribute('onclick').includes("'" + tab + "'");
+        el.style.borderBottom = active ? '3px solid #222' : 'none';
+        el.style.fontWeight   = active ? 'bold' : 'normal';
+        el.style.color        = active ? '#222' : '#888';
+      });
+    }
+</script>
+</body>
+</html>
