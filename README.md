@@ -10,7 +10,13 @@ Works with any AI coding assistant: Claude Code, Cursor, Windsurf, GitHub Copilo
 
 ## Installation
 
-### Claude Code
+### Any agent — recommended
+```bash
+npx skills add agilek/wireframer-skill
+```
+Automatically installs into the right directory for your agent (Claude Code, Cursor, Windsurf, Copilot, Gemini, and [40+ others](https://github.com/vercel-labs/skills)).
+
+### Claude Code (plugin)
 ```
 /plugin marketplace add agilek/wireframer-skill
 /plugin install wireframes-designer@wireframer-skill
@@ -21,8 +27,8 @@ Then invoke it in any project:
 /wireframer Build a SaaS dashboard with a sidebar, KPI overview row, and recent activity table.
 ```
 
-### Cursor / Windsurf / Copilot / other agents
-Copy the contents of [`skills/wireframer/SKILL.md`](skills/wireframer/SKILL.md) into your AI instruction file:
+### Manual install
+Copy the contents of [`plugins/wireframes-designer/skills/wireframer/SKILL.md`](plugins/wireframes-designer/skills/wireframer/SKILL.md) into your AI instruction file:
 
 | Tool | File |
 |---|---|
@@ -31,11 +37,6 @@ Copy the contents of [`skills/wireframer/SKILL.md`](skills/wireframer/SKILL.md) 
 | Gemini | `gemini.md` |
 | GitHub Copilot | `.github/copilot-instructions.md` |
 | Any agent | `agents.md` |
-
-Then prompt your agent:
-```
-Generate a wireframe prototype for: a SaaS dashboard with a sidebar, KPI overview row, and recent activity table.
-```
 
 ---
 

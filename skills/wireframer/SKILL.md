@@ -1,6 +1,6 @@
 ---
 name: wireframer
-description: Generates functional, low-fidelity, hand-drawn web prototypes in a Balsamiq-inspired style using wired-elements and react-doodle-icons
+description: Use this skill to generate a wireframe, mockup, or low-fidelity clickable prototype of any web UI. Invoke whenever the user mentions wireframing, mocking up, prototyping, or sketching out a UI — including phrases like "lo-fi prototype", "rough layout", "Balsamiq-style", "hand-drawn UI", "clickable prototype", "sketch the screens", "visualize the flow", or "show what the app would look like". Also use when the user wants to ideate before writing production code, prepare a concept for stakeholders, run a design sprint, or asks about react-doodle-icons. Produces a self-contained SPA with sketchy hand-drawn aesthetics: wired-elements interactive components, graph-paper background, and doodle icons.
 ---
 
 # Role: Interactive Wireframes Prototyper
