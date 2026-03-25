@@ -5,7 +5,7 @@
   },
   "plugins": [
     {
-      "name": "wireframer",
+      "name": "wireframes-designer",
       "source": "./",
       "description": "Generate functional, low-fidelity, hand-drawn web prototypes in a Balsamiq-inspired style using wired-elements and react-doodle-icons."
     }

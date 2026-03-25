@@ -34,7 +34,21 @@ Before generating any UI code, execute the following steps using your file syste
 - **Color:** Strict grayscale/monochrome. Use black, white, and shades of gray. Action links/buttons can be a muted, sketchy blue for the primary links, same color as paragraph text for secondary and tertiary links. Links are always underlined.
 - **Buttons:** Primary button must stand out with strong contrast. Secondary should be a ghost button.
 - **Background:** Use a subtle graph-paper or dotted background pattern to simulate a sketchbook: `background-image: radial-gradient(#d7d7d7 1px, transparent 1px); background-size: 20px 20px;`
-- **Typography:** Always import and use the `'Patrick Hand'`, `'Caveat'`, or `'Comic Neue'` fonts from Google Fonts.
+- **Typography:** Always import and use the `'Patrick Hand'`, `'Caveat'`, or `'Comic Neue'` fonts from Google Fonts. Apply this type scale globally — never go below `13px` in any context:
+
+  ```css
+  html { font-size: 16px; }
+
+  /* Major Third scale (×1.250) */
+  .text-xs   { font-size: 13px;    line-height: 1.4; } /* labels, timestamps, captions */
+  .text-sm   { font-size: 16px;    line-height: 1.5; } /* body, table rows, sidebar nav */
+  .text-base { font-size: 20px;    line-height: 1.5; } /* default body, card content */
+  .text-md   { font-size: 25px;    line-height: 1.3; } /* section titles, card headings */
+  .text-lg   { font-size: 31px;    line-height: 1.2; } /* page titles, KPI values */
+  .text-xl   { font-size: 39px;    line-height: 1.1; } /* hero headings */
+  ```
+
+  Set `body { font-size: 16px; }` as the default so all relative units inherit correctly. Use `text-sm` for dense UI (tables, sidebars) and `text-base` for general content.
 - **The Sketchy Border Trick:** For custom containers or standard HTML elements, apply this CSS to make them look hand-drawn: `border: 2px solid #333; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;`
 
 ## 🧩 4. Component Rules (Wired Elements + Icons)

@@ -13,7 +13,7 @@ Works with any AI coding assistant: Claude Code, Cursor, Windsurf, GitHub Copilo
 ### Claude Code
 ```
 /plugin marketplace add agilek/wireframer-skill
-/plugin install wireframer@wireframer-skill
+/plugin install wireframes-designer@wireframer-skill
 ```
 
 Then invoke it in any project:
