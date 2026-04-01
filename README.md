@@ -16,6 +16,17 @@ npx skills add agilek/wireframer-skill
 ```
 Automatically installs into the right directory for your agent (Claude Code, Cursor, Windsurf, Copilot, Gemini, and [40+ others](https://github.com/vercel-labs/skills)).
 
+### Claude Code (plugin)
+```
+/plugin marketplace add agilek/wireframer-skill
+/plugin install wireframes-designer@wireframer-skill
+```
+
+Then invoke it in any project:
+```
+/wireframer Build a SaaS dashboard with a sidebar, KPI overview row, and recent activity table.
+```
+
 ### Update
 ```bash
 npx skills update
@@ -79,6 +90,14 @@ Trigger phrases: *wireframe*, *mockup*, *lo-fi prototype*, *rough layout*, *sket
 
 ## Example prompts
 
+### Cloning an existing page
+```
+Convert the page at https://google.com into a hand-drawn wireframe. Preserve the layout, sections, and content hierarchy but render everything in the sketchy wireframe aesthetic.
+```
+```
+I've pasted the HTML of our current homepage below. Re-create it as a low-fidelity wireframe prototype, keeping the same structure and copy but applying the hand-drawn aesthetic.
+```
+
 ### SaaS & dashboards
 ```
 Wireframe a SaaS analytics dashboard with a collapsible sidebar, KPI cards row, a line chart, and a recent activity table.
@@ -133,14 +152,6 @@ Wireframe a multi-step signup wizard for a B2B tool: account details, team invit
 ```
 ```
 Wireframe a settings page with tabs for Profile, Notifications, Security, and Billing.
-```
-
-### Cloning an existing page
-```
-Convert the page at https://example.com into a hand-drawn wireframe. Preserve the layout, sections, and content hierarchy but render everything in the sketchy wireframe aesthetic.
-```
-```
-I've pasted the HTML of our current homepage below. Re-create it as a low-fidelity wireframe prototype, keeping the same structure and copy but applying the hand-drawn aesthetic.
 ```
 
 ---
