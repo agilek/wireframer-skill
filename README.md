@@ -6,7 +6,12 @@ Prototypes are clickable SPAs with a sketchbook aesthetic: dotted backgrounds, w
 
 Works with any AI coding assistant: Claude Code, Cursor, Windsurf, GitHub Copilot, Gemini, and others.
 
----
+## Live previews
+Click any image to see interactive prototype.
+
+| SaaS Dashboard | Bio | Checkout |
+|----------|-----|----------|
+| [![Dashboard](samples/screenshots/dashboard.png)](https://agilek.github.io/wireframer-skill/samples/dashboard.html) | [![Bio](samples/screenshots/bio.png)](https://agilek.github.io/wireframer-skill/samples/bio.html) | [![Checkout](samples/screenshots/checkout.png)](https://agilek.github.io/wireframer-skill/samples/checkout.html) |
 
 ## Installation
 
@@ -15,6 +20,11 @@ Works with any AI coding assistant: Claude Code, Cursor, Windsurf, GitHub Copilo
 npx skills add agilek/wireframer-skill
 ```
 Automatically installs into the right directory for your agent (Claude Code, Cursor, Windsurf, Copilot, Gemini, and [40+ others](https://github.com/vercel-labs/skills)).
+
+### Update
+```bash
+npx skills update
+```
 
 ### Claude Code (plugin)
 ```
@@ -25,11 +35,6 @@ Automatically installs into the right directory for your agent (Claude Code, Cur
 Then invoke it in any project:
 ```
 /wireframer Build a SaaS dashboard with a sidebar, KPI overview row, and recent activity table.
-```
-
-### Update
-```bash
-npx skills update
 ```
 
 ### Manual install
@@ -43,24 +48,12 @@ Copy the contents of [`SKILL.md`](SKILL.md) into your AI instruction file:
 | GitHub Copilot | `.github/copilot-instructions.md` |
 | Any agent | `agents.md` |
 
----
-
-## Live previews
-
-| SaaS Dashboard | Bio / Profile Page |
-|---|---|
-| [![Dashboard](samples/screenshots/dashboard.png)](https://agilek.github.io/wireframer-skill/samples/dashboard.html) | [![Bio](samples/screenshots/bio.png)](https://agilek.github.io/wireframer-skill/samples/bio.html) |
-
----
-
 ## What gets generated
 
 - **Wired Elements** — all interactive UI (inputs, cards, checkboxes, tabs, toggles, etc.) uses [`wired-elements`](https://github.com/rough-stuff/wired-elements) web components for a hand-drawn SVG look
 - **Doodle Icons** — icons use [`react-doodle-icons`](https://github.com/agilek/react-doodle-icons), a library of 439 hand-drawn icons across 17 categories
 - **Sketchy aesthetics** — dotted graph-paper background, irregular borders, Patrick Hand / Caveat / Comic Neue fonts from Google Fonts
 - **Realistic copy** — context-aware body text generated from your description; no lorem ipsum
-
----
 
 ## Supported environments
 
@@ -71,8 +64,6 @@ Copy the contents of [`SKILL.md`](SKILL.md) into your AI instruction file:
 | Vanilla HTML | CDN (`unpkg`) | inline SVG |
 
 For React projects, navigation is handled with `useState` — no routing library needed.
-
----
 
 ## When to use this skill
 
@@ -85,8 +76,6 @@ Invoke the wireframer when you want to:
 - **Sketch an MVP** — turn a product idea into something clickable in minutes
 
 Trigger phrases: *wireframe*, *mockup*, *lo-fi prototype*, *rough layout*, *sketch the screens*, *Balsamiq-style*, *hand-drawn UI*, *clickable prototype*, *visualize the flow*, *show what the app would look like*.
-
----
 
 ## Example prompts
 
@@ -153,8 +142,6 @@ Wireframe a multi-step signup wizard for a B2B tool: account details, team invit
 ```
 Wireframe a settings page with tabs for Profile, Notifications, Security, and Billing.
 ```
-
----
 
 ## Aesthetic rules enforced
 
