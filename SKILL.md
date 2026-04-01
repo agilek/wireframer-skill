@@ -32,11 +32,33 @@ Before generating any UI code, execute the following steps using your file syste
 ## 🎨 3. Aesthetic & Stylistic Rules
 
 - **Color:** Strict grayscale/monochrome. Use black, white, and shades of gray. Action links/buttons can be a muted, sketchy blue for the primary links, same color as paragraph text for secondary and tertiary links. Links are always underlined.
-- **Buttons:** Use the `elevation` attribute to express visual hierarchy — do NOT attempt background fills or color tricks:
-  - Primary CTA: `<wired-button elevation="4">Primary</wired-button>`
-  - Secondary: `<wired-button>Secondary</wired-button>`
-  - **NEVER set `color: white` on a `<wired-button>`.** In wired-elements, `color` controls the "ink" for both the text AND the hand-drawn SVG border — white ink on a white page makes the button completely invisible.
-  - **NEVER use `background`, `background-color`, or invented CSS variables like `--wired-button-bg`** to fill a button. `<wired-button>` has no solid fill — these either do nothing or break the sketchy aesthetic.
+- **Buttons:** Do NOT use `<wired-button>` for primary or secondary actions — it cannot be reliably filled. Use plain `<button>` elements styled with the sketchy border trick instead:
+
+  ```css
+  /* Primary: dark fill, white text */
+  .btn-primary {
+    background: #333; color: white;
+    border: 2px solid #333;
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    font-family: 'Patrick Hand', cursive; font-size: 18px;
+    padding: 12px 28px; cursor: pointer;
+  }
+  /* Secondary: white fill, dark border */
+  .btn-secondary {
+    background: white; color: #333;
+    border: 2px solid #333;
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    font-family: 'Patrick Hand', cursive; font-size: 18px;
+    padding: 12px 28px; cursor: pointer;
+  }
+  ```
+
+  ```html
+  <button class="btn-primary">Get Started</button>
+  <button class="btn-secondary">Learn More</button>
+  ```
+
+  **Why not `<wired-button>`?** Its background is a transparent SVG canvas. Setting `color: white` makes both the text and the hand-drawn SVG border invisible (white ink on white page). CSS variables like `--wired-button-bg` are hallucinated — they do not exist.
 - **Background:** Use a subtle graph-paper or dotted background pattern to simulate a sketchbook: `background-image: radial-gradient(#d7d7d7 1px, transparent 1px); background-size: 20px 20px;`
 - **Typography:** Always import and use the `'Patrick Hand'`, `'Caveat'`, or `'Comic Neue'` fonts from Google Fonts. Apply this type scale globally — never go below `13px` in any context:
 
@@ -63,7 +85,7 @@ You MUST use the `wired-elements` Web Components library for ALL interactive UI 
 
 | Component | Use for |
 |---|---|
-| `<wired-button>` | All buttons |
+| `<wired-button>` | Avoid — use plain `<button class="btn-primary/btn-secondary">` instead (see Aesthetic Rules) |
 | `<wired-input>` | Text inputs |
 | `<wired-textarea>` | Multi-line text |
 | `<wired-search-input>` | Search fields |
