@@ -135,6 +135,14 @@ Wireframe a multi-step signup wizard for a B2B tool: account details, team invit
 Wireframe a settings page with tabs for Profile, Notifications, Security, and Billing.
 ```
 
+### Cloning an existing page
+```
+Convert the page at https://example.com into a hand-drawn wireframe. Preserve the layout, sections, and content hierarchy but render everything in the sketchy wireframe aesthetic.
+```
+```
+I've pasted the HTML of our current homepage below. Re-create it as a low-fidelity wireframe prototype, keeping the same structure and copy but applying the hand-drawn aesthetic.
+```
+
 ---
 
 ## Aesthetic rules enforced
