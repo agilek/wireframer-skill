@@ -110,7 +110,9 @@ Always reach for a wired component before falling back to a plain HTML element.
 
 ### Icons
 
-You MUST use `react-doodle-icons` (https://github.com/agilek/react-doodle-icons) for ALL icons in React projects. Before adding any icon, consult `ICONS.md` to find the exact component name.
+**NEVER use emoji as icons.** Emoji (🚀 ✅ ⚙️ 📧 etc.) break the hand-drawn aesthetic and must not appear anywhere in the UI — not in buttons, nav items, headings, lists, or anywhere else. Always use a proper icon component instead.
+
+You MUST use `react-doodle-icons` (https://github.com/agilek/react-doodle-icons) for ALL icons in React projects. For vanilla HTML or non-React projects, embed the SVG markup inline. Before adding any icon, consult `ICONS.md` to find the exact component name.
 
 **Icon placement is mandatory — actively look for opportunities.** Before finalising any screen, scan every element and ask: *could an icon reinforce this?* You MUST add icons in (but not limited to) these situations:
 
