@@ -75,7 +75,12 @@ Before generating any UI code, execute the following steps using your file syste
   ```
 
   Set `body { font-size: 18px; }` as the default so all relative units inherit correctly. Use `text-sm` for dense UI (tables, sidebars) and `text-base` for general content.
-- **The Sketchy Border Trick:** For custom containers or standard HTML elements, apply this CSS to make them look hand-drawn: `border: 2px solid #333; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;`
+- **The Sketchy Border Trick:** For custom containers or standard HTML elements, apply this CSS to make them look hand-drawn. Always include `background: white` — without it, the graph-paper background bleeds through and makes content harder to read:
+  ```css
+  border: 2px solid #333;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  background: white;
+  ```
 
 ## 🧩 4. Component Rules (Wired Elements + Icons)
 
@@ -97,7 +102,7 @@ You MUST use the `wired-elements` Web Components library for ALL interactive UI 
 | `<wired-slider>` | Range sliders |
 | `<wired-progress>` | Progress bars |
 | `<wired-spinner>` | Loading states |
-| `<wired-card>` | Content containers, panels, placeholders |
+| `<wired-card>` | Content containers, panels, placeholders — always set `style="background: white"` |
 | `<wired-divider>` | Horizontal rules / section separators |
 | `<wired-tabs>` + `<wired-tab>` | Tabbed navigation |
 | `<wired-listbox>` + `<wired-item>` | List selections |
