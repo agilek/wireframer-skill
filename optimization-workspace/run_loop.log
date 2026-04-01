@@ -1,0 +1,96 @@
+Split: 13 train, 7 test (holdout=0.4)
+
+============================================================
+Iteration 1/5
+Description: Generates functional, low-fidelity, hand-drawn web prototypes in a Balsamiq-inspired style using wired-elements and react-doodle-icons
+============================================================
+Train: 18/39 correct, precision=100% recall=0% accuracy=46% (131.4s)
+  [FAIL] rate=0/3 expected=True: i need to show my client what the homepage of their new site
+  [FAIL] rate=0/3 expected=True: i'm doing a design sprint next week and need a rough prototy
+  [FAIL] rate=0/3 expected=True: hey can you draft the screens for a mobile onboarding flow? 
+  [FAIL] rate=0/3 expected=True: generate a wireframe for a project management tool with thre
+  [FAIL] rate=0/3 expected=True: can you build me a quick lo-fi prototype of a b2b invoicing 
+  [FAIL] rate=0/3 expected=True: i'm pitching this idea to my co-founder tomorrow and i want 
+  [FAIL] rate=0/3 expected=True: i need to add about 30 icons to my react app. i want hand-dr
+  [PASS] rate=0/3 expected=False: i already built the wireframes in figma, now i need to conve
+  [PASS] rate=0/3 expected=False: my react component is re-rendering too many times. i have a 
+  [PASS] rate=0/3 expected=False: build me a full production-ready landing page for my saas st
+  [PASS] rate=0/3 expected=False: we have an existing html prototype that a designer made and 
+  [PASS] rate=0/3 expected=False: my app.tsx is getting really messy — it's a react dashboard 
+  [PASS] rate=0/3 expected=False: help me pick a color palette for my new dashboard. i'm going
+Test : 9/21 correct, precision=100% recall=0% accuracy=43% (0.0s)
+  [FAIL] rate=0/3 expected=True: i need to sketch out the ui for a kanban board app before we
+  [FAIL] rate=0/3 expected=True: i want to visualize the user flow for my saas app before wri
+  [FAIL] rate=0/3 expected=True: mockup a checkout flow for my ecommerce store — cart summary
+  [FAIL] rate=0/3 expected=True: prototype a customer support dashboard — ticket queue on the
+  [PASS] rate=0/3 expected=False: i have a hand-drawn sketch of my app's layout (attached as a
+  [PASS] rate=0/3 expected=False: can you add wired-elements to my existing vue project? i'm a
+  [PASS] rate=0/3 expected=False: what's the difference between wired-elements and shoelace fo
+
+Improving description...
+Proposed (15.8s): 
+
+============================================================
+Iteration 2/5
+Description: 
+============================================================
+Train: 18/39 correct, precision=100% recall=0% accuracy=46% (174.3s)
+  [FAIL] rate=0/3 expected=True: i need to show my client what the homepage of their new site
+  [FAIL] rate=0/3 expected=True: generate a wireframe for a project management tool with thre
+  [FAIL] rate=0/3 expected=True: i'm doing a design sprint next week and need a rough prototy
+  [FAIL] rate=0/3 expected=True: hey can you draft the screens for a mobile onboarding flow? 
+  [FAIL] rate=0/3 expected=True: i'm pitching this idea to my co-founder tomorrow and i want 
+  [FAIL] rate=0/3 expected=True: can you build me a quick lo-fi prototype of a b2b invoicing 
+  [FAIL] rate=0/3 expected=True: i need to add about 30 icons to my react app. i want hand-dr
+  [PASS] rate=0/3 expected=False: build me a full production-ready landing page for my saas st
+  [PASS] rate=0/3 expected=False: i already built the wireframes in figma, now i need to conve
+  [PASS] rate=0/3 expected=False: my react component is re-rendering too many times. i have a 
+  [PASS] rate=0/3 expected=False: we have an existing html prototype that a designer made and 
+  [PASS] rate=0/3 expected=False: my app.tsx is getting really messy — it's a react dashboard 
+  [PASS] rate=0/3 expected=False: help me pick a color palette for my new dashboard. i'm going
+Test : 9/21 correct, precision=100% recall=0% accuracy=43% (0.0s)
+  [FAIL] rate=0/3 expected=True: i want to visualize the user flow for my saas app before wri
+  [FAIL] rate=0/3 expected=True: i need to sketch out the ui for a kanban board app before we
+  [FAIL] rate=0/3 expected=True: mockup a checkout flow for my ecommerce store — cart summary
+  [FAIL] rate=0/3 expected=True: prototype a customer support dashboard — ticket queue on the
+  [PASS] rate=0/3 expected=False: what's the difference between wired-elements and shoelace fo
+  [PASS] rate=0/3 expected=False: i have a hand-drawn sketch of my app's layout (attached as a
+  [PASS] rate=0/3 expected=False: can you add wired-elements to my existing vue project? i'm a
+
+Improving description...
+Proposed (15.5s): 
+
+============================================================
+Iteration 3/5
+Description: 
+============================================================
+Train: 18/39 correct, precision=100% recall=0% accuracy=46% (148.1s)
+  [FAIL] rate=0/3 expected=True: i need to show my client what the homepage of their new site
+  [FAIL] rate=0/3 expected=True: generate a wireframe for a project management tool with thre
+  [FAIL] rate=0/3 expected=True: i'm doing a design sprint next week and need a rough prototy
+  [FAIL] rate=0/3 expected=True: hey can you draft the screens for a mobile onboarding flow? 
+  [FAIL] rate=0/3 expected=True: can you build me a quick lo-fi prototype of a b2b invoicing 
+  [FAIL] rate=0/3 expected=True: i'm pitching this idea to my co-founder tomorrow and i want 
+  [FAIL] rate=0/3 expected=True: i need to add about 30 icons to my react app. i want hand-dr
+  [PASS] rate=0/3 expected=False: build me a full production-ready landing page for my saas st
+  [PASS] rate=0/3 expected=False: i already built the wireframes in figma, now i need to conve
+  [PASS] rate=0/3 expected=False: my react component is re-rendering too many times. i have a 
+  [PASS] rate=0/3 expected=False: we have an existing html prototype that a designer made and 
+  [PASS] rate=0/3 expected=False: my app.tsx is getting really messy — it's a react dashboard 
+  [PASS] rate=0/3 expected=False: help me pick a color palette for my new dashboard. i'm going
+Test : 9/21 correct, precision=100% recall=0% accuracy=43% (0.0s)
+  [FAIL] rate=0/3 expected=True: i want to visualize the user flow for my saas app before wri
+  [FAIL] rate=0/3 expected=True: i need to sketch out the ui for a kanban board app before we
+  [FAIL] rate=0/3 expected=True: prototype a customer support dashboard — ticket queue on the
+  [FAIL] rate=0/3 expected=True: mockup a checkout flow for my ecommerce store — cart summary
+  [PASS] rate=0/3 expected=False: what's the difference between wired-elements and shoelace fo
+  [PASS] rate=0/3 expected=False: i have a hand-drawn sketch of my app's layout (attached as a
+  [PASS] rate=0/3 expected=False: can you add wired-elements to my existing vue project? i'm a
+
+Improving description...
+Proposed (15.3s): 
+
+============================================================
+Iteration 4/5
+Description: 
+============================================================
