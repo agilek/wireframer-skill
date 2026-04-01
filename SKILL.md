@@ -32,7 +32,11 @@ Before generating any UI code, execute the following steps using your file syste
 ## 🎨 3. Aesthetic & Stylistic Rules
 
 - **Color:** Strict grayscale/monochrome. Use black, white, and shades of gray. Action links/buttons can be a muted, sketchy blue for the primary links, same color as paragraph text for secondary and tertiary links. Links are always underlined.
-- **Buttons:** Primary button must stand out with strong contrast. Secondary should be a ghost button.
+- **Buttons:** Use the `elevation` attribute to express visual hierarchy — do NOT attempt background fills or color tricks:
+  - Primary CTA: `<wired-button elevation="4">Primary</wired-button>`
+  - Secondary: `<wired-button>Secondary</wired-button>`
+  - **NEVER set `color: white` on a `<wired-button>`.** In wired-elements, `color` controls the "ink" for both the text AND the hand-drawn SVG border — white ink on a white page makes the button completely invisible.
+  - **NEVER use `background`, `background-color`, or invented CSS variables like `--wired-button-bg`** to fill a button. `<wired-button>` has no solid fill — these either do nothing or break the sketchy aesthetic.
 - **Background:** Use a subtle graph-paper or dotted background pattern to simulate a sketchbook: `background-image: radial-gradient(#d7d7d7 1px, transparent 1px); background-size: 20px 20px;`
 - **Typography:** Always import and use the `'Patrick Hand'`, `'Caveat'`, or `'Comic Neue'` fonts from Google Fonts. Apply this type scale globally — never go below `13px` in any context:
 
