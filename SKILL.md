@@ -112,6 +112,23 @@ Always reach for a wired component before falling back to a plain HTML element.
 
 You MUST use `react-doodle-icons` (https://github.com/agilek/react-doodle-icons) for ALL icons in React projects. Before adding any icon, consult `ICONS.md` to find the exact component name.
 
+**Icon placement is mandatory — actively look for opportunities.** Before finalising any screen, scan every element and ask: *could an icon reinforce this?* You MUST add icons in (but not limited to) these situations:
+
+| Context | Examples |
+|---|---|
+| Navigation items | Home, Dashboard, Settings, Profile, Logout |
+| Social media links | Twitter/X, GitHub, LinkedIn, Instagram, Facebook |
+| Feature / benefit lists | Checkmarks, stars, lightning bolts next to each item |
+| CTA buttons | Arrow, rocket, or send icon alongside button text |
+| Form fields | Envelope for email, lock for password, user for name |
+| Stat / metric cards | Trend arrows, chart icons, counters |
+| Alert / status messages | Info, warning, success, error indicators |
+| Section headings | A small thematic icon before the heading text |
+| Empty states | A large illustrative icon to fill the blank space |
+| Footer links | Small icons beside each link or social handle |
+
+An interface with zero icons is always wrong. If you produced a screen with no icons, go back and add them.
+
 **Default icon style** — always apply these unless the context requires otherwise:
 ```jsx
 <RocketIcon size={20} color="currentColor" />
