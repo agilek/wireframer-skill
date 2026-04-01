@@ -16,19 +16,13 @@ npx skills add agilek/wireframer-skill
 ```
 Automatically installs into the right directory for your agent (Claude Code, Cursor, Windsurf, Copilot, Gemini, and [40+ others](https://github.com/vercel-labs/skills)).
 
-### Claude Code (plugin)
-```
-/plugin marketplace add agilek/wireframer-skill
-/plugin install wireframes-designer@wireframer-skill
-```
-
-Then invoke it in any project:
-```
-/wireframer Build a SaaS dashboard with a sidebar, KPI overview row, and recent activity table.
+### Update
+```bash
+npx skills update
 ```
 
 ### Manual install
-Copy the contents of [`plugins/wireframes-designer/skills/wireframer/SKILL.md`](plugins/wireframes-designer/skills/wireframer/SKILL.md) into your AI instruction file:
+Copy the contents of [`SKILL.md`](SKILL.md) into your AI instruction file:
 
 | Tool | File |
 |---|---|
@@ -50,7 +44,7 @@ Copy the contents of [`plugins/wireframes-designer/skills/wireframer/SKILL.md`](
 
 ## What gets generated
 
-- **Wired Elements** — all interactive UI (buttons, inputs, cards, checkboxes, tabs, toggles, etc.) uses [`wired-elements`](https://github.com/rough-stuff/wired-elements) web components for a hand-drawn SVG look
+- **Wired Elements** — all interactive UI (inputs, cards, checkboxes, tabs, toggles, etc.) uses [`wired-elements`](https://github.com/rough-stuff/wired-elements) web components for a hand-drawn SVG look
 - **Doodle Icons** — icons use [`react-doodle-icons`](https://github.com/agilek/react-doodle-icons), a library of 439 hand-drawn icons across 17 categories
 - **Sketchy aesthetics** — dotted graph-paper background, irregular borders, Patrick Hand / Caveat / Comic Neue fonts from Google Fonts
 - **Realistic copy** — context-aware body text generated from your description; no lorem ipsum
@@ -69,18 +63,76 @@ For React projects, navigation is handled with `useState` — no routing library
 
 ---
 
+## When to use this skill
+
+Invoke the wireframer when you want to:
+
+- **Validate a concept** before writing any production code
+- **Communicate layout and flow** to stakeholders or teammates without visual polish
+- **Run a design sprint** — generate multiple screen variants quickly and compare
+- **Prototype a user journey** — multi-screen flows with working navigation
+- **Sketch an MVP** — turn a product idea into something clickable in minutes
+
+Trigger phrases: *wireframe*, *mockup*, *lo-fi prototype*, *rough layout*, *sketch the screens*, *Balsamiq-style*, *hand-drawn UI*, *clickable prototype*, *visualize the flow*, *show what the app would look like*.
+
+---
+
 ## Example prompts
 
+### SaaS & dashboards
 ```
-Generate a wireframe for a three-screen mobile onboarding flow for a fitness tracking app.
+Wireframe a SaaS analytics dashboard with a collapsible sidebar, KPI cards row, a line chart, and a recent activity table.
+```
+```
+Wireframe an admin panel for a multi-tenant SaaS: user management table, role assignment modal, and billing overview.
 ```
 
+### E-commerce
 ```
-Generate a wireframe for a checkout flow: cart summary, shipping details, and order confirmation screens.
+Wireframe a product detail page with image gallery, size selector, reviews section, and sticky add-to-cart bar.
+```
+```
+Wireframe a checkout flow: cart summary, shipping form, payment step, and order confirmation screen.
 ```
 
+### Mobile flows
 ```
-Generate a wireframe for a project management tool with a kanban board, task detail panel, and team sidebar.
+Wireframe a three-screen mobile onboarding for a fitness tracking app: welcome, goal setup, and notification permissions.
+```
+```
+Wireframe a mobile food delivery app: restaurant listing, menu screen, and cart with order summary.
+```
+
+### Marketing & landing pages
+```
+Wireframe a SaaS landing page: hero with CTA, features grid, pricing table with three tiers, and footer.
+```
+```
+Wireframe a personal portfolio: hero, about section, project cards grid, skills list, and contact form.
+```
+
+### Productivity & tools
+```
+Wireframe a project management tool with a kanban board, task detail slide-over panel, and team members sidebar.
+```
+```
+Wireframe an email client: folder list sidebar, message list, and reading pane with reply box.
+```
+
+### Social & community
+```
+Wireframe a social feed with stories row, post cards, comment thread, and a floating compose button.
+```
+```
+Wireframe a community forum: category list, thread listing, and a post detail page with nested replies.
+```
+
+### Forms & onboarding
+```
+Wireframe a multi-step signup wizard for a B2B tool: account details, team invite, workspace setup, and done screen.
+```
+```
+Wireframe a settings page with tabs for Profile, Notifications, Security, and Billing.
 ```
 
 ---
@@ -88,7 +140,9 @@ Generate a wireframe for a project management tool with a kanban board, task det
 ## Aesthetic rules enforced
 
 - Strict grayscale — black, white, and grays only
-- Primary actions in muted sketchy blue; secondary as ghost; all links underlined
+- Primary buttons: dark fill (`#333`) with white text; secondary: white fill with dark sketchy border
+- All containers have a solid white background so the graph-paper pattern never bleeds through content
+- No emoji — icons use `react-doodle-icons` or inline SVG only
 - Sketchy border trick: `border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px`
 - Graph-paper background: `radial-gradient(#d7d7d7 1px, transparent 1px)`
 - On first run, context rules are written to the project's AI instruction file (`agents.md`, `.cursorrules`, etc.) so the aesthetic persists across sessions
